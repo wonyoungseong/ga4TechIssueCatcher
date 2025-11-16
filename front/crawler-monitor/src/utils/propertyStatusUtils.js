@@ -32,14 +32,28 @@ export function calculateHasIssues(result) {
 }
 
 /**
+ * Check if result has Consent Mode issue
+ *
+ * @param {Object} result - Crawl result object
+ * @returns {boolean} True if Consent Mode is detected
+ */
+export function hasConsentModeIssue(result) {
+  return result.issues &&
+         result.issues.some(issue =>
+           issue.type === 'consent_mode_basic_detected'
+         );
+}
+
+/**
  * Get display status for a property based on management status and crawl results
  *
  * @param {string} propertyStatus - Property status from status management (normal/issue/debugging)
  * @param {boolean} hasIssues - Whether crawl result has issues
  * @param {number} issueCount - Number of issues found
+ * @param {Object} result - Full crawl result object (for detailed issue analysis)
  * @returns {Object} Display status with priority, label, message, icon, colorClass
  */
-export function getPropertyDisplayStatus(propertyStatus, hasIssues, issueCount = 0) {
+export function getPropertyDisplayStatus(propertyStatus, hasIssues, issueCount = 0, result = null) {
   // Normalize inputs
   const status = (propertyStatus || 'normal').toLowerCase();
   const issues = Boolean(hasIssues);
@@ -47,25 +61,27 @@ export function getPropertyDisplayStatus(propertyStatus, hasIssues, issueCount =
   /**
    * Priority (체크 순서):
    * 1. 디버깅 상태 체크 (debugging 상태는 크롤 결과와 관계없이 항상 "디버깅"으로 표시)
-   * 2. 정상 → 오류 발생 (E - Priority 1 URGENT)
-   * 3. 이슈 → 오류 (C - Priority 2)
-   * 4. 이슈 → 정상 (D - Priority 4)
-   * 5. 정상 → 정상 (F - Priority 5)
+   * 2. Consent Mode 감지 (G - Priority 2)
+   * 3. 정상 → 오류 발생 (E - Priority 1 URGENT)
+   * 4. 이슈 → 오류 (C - Priority 3)
+   * 5. 이슈 → 정상 (D - Priority 5)
+   * 6. 정상 → 정상 (F - Priority 6)
    *
    * Display Priority:
    * 1 (Highest): E - 정상 → 오류 발생 (새로운 오류)
-   * 2: C - 이슈 → 오류 (수정 필요)
-   * 3: B - 디버깅 → 정상 (확인 필요)
-   * 4: D - 이슈 → 정상 (확인 필요)
-   * 5: F - 정상 → 정상 (정상)
-   * 6: A - 디버깅 → 디버깅 (디버깅 진행중)
+   * 2: G - Consent Mode 감지 (GA4 차단)
+   * 3: C - 이슈 → 오류 (수정 필요)
+   * 4: B - 디버깅 → 정상 (확인 필요)
+   * 5: D - 이슈 → 정상 (확인 필요)
+   * 6: F - 정상 → 정상 (정상)
+   * 7: A - 디버깅 → 디버깅 (디버깅 진행중)
    */
 
   // FIRST: Check if status is debugging - always show as debugging regardless of issues
-  // Scenario A: 디버깅 → 디버깅 (Priority 6)
+  // Scenario A: 디버깅 → 디버깅 (Priority 7)
   if (status === 'debugging' && issues) {
     return {
-      priority: 6,
+      priority: 7,
       scenario: 'A',
       label: '디버깅중',
       shortLabel: '디버깅중',
@@ -77,10 +93,10 @@ export function getPropertyDisplayStatus(propertyStatus, hasIssues, issueCount =
     };
   }
 
-  // Scenario B: 디버깅 → 정상 (Priority 3)
+  // Scenario B: 디버깅 → 정상 (Priority 4)
   if (status === 'debugging' && !issues) {
     return {
-      priority: 3,
+      priority: 4,
       scenario: 'B',
       label: '확인 필요',
       shortLabel: '확인필요',
@@ -93,6 +109,21 @@ export function getPropertyDisplayStatus(propertyStatus, hasIssues, issueCount =
       actionLabel: '상태 확인',
       suggestedStatus: 'normal',
       blink: true
+    };
+  }
+
+  // Scenario G: Consent Mode 감지 (Priority 2)
+  if (result && hasConsentModeIssue(result)) {
+    return {
+      priority: 2,
+      scenario: 'G',
+      label: 'Consent Mode',
+      shortLabel: 'Consent Mode',
+      message: 'Consent Mode로 인한 GA4 차단',
+      detailMessage: 'Google Consent Mode가 활성화되어 GA4 데이터 수집이 차단되었습니다.',
+      icon: '🔒',
+      colorClass: 'consent-mode',
+      needsAction: false
     };
   }
 
@@ -114,10 +145,10 @@ export function getPropertyDisplayStatus(propertyStatus, hasIssues, issueCount =
     };
   }
 
-  // Scenario C: 이슈 → 오류 (Priority 2)
+  // Scenario C: 이슈 → 오류 (Priority 3)
   if (status === 'issue' && issues) {
     return {
-      priority: 2,
+      priority: 3,
       scenario: 'C',
       label: '오류',
       shortLabel: '오류',
@@ -131,10 +162,10 @@ export function getPropertyDisplayStatus(propertyStatus, hasIssues, issueCount =
     };
   }
 
-  // Scenario D: 이슈 → 정상 (Priority 4)
+  // Scenario D: 이슈 → 정상 (Priority 5)
   if (status === 'issue' && !issues) {
     return {
-      priority: 4,
+      priority: 5,
       scenario: 'D',
       label: '확인 필요',
       shortLabel: '확인필요',
@@ -149,10 +180,10 @@ export function getPropertyDisplayStatus(propertyStatus, hasIssues, issueCount =
     };
   }
 
-  // Scenario F: 정상 → 정상 (Priority 5 - Normal)
+  // Scenario F: 정상 → 정상 (Priority 6 - Normal)
   if (status === 'normal' && !issues) {
     return {
-      priority: 5,
+      priority: 6,
       scenario: 'F',
       label: '정상',
       shortLabel: '정상',
@@ -189,10 +220,11 @@ export function getPropertyDisplayStatus(propertyStatus, hasIssues, issueCount =
 export function getStatusCounts(results) {
   const counts = {
     urgent: 0,        // Priority 1: 오류 발생
-    error: 0,         // Priority 2: 오류
-    checkNeeded: 0,   // Priority 3-4: 확인 필요
-    debugging: 0,     // Priority 6: 디버깅중
-    normal: 0,        // Priority 5: 정상
+    consentMode: 0,   // Priority 2: Consent Mode
+    error: 0,         // Priority 3: 오류
+    checkNeeded: 0,   // Priority 4-5: 확인 필요
+    normal: 0,        // Priority 6: 정상
+    debugging: 0,     // Priority 7: 디버깅중
     total: results.length
   };
 
@@ -200,16 +232,18 @@ export function getStatusCounts(results) {
     const displayStatus = getPropertyDisplayStatus(
       result.properties?.current_status || result.property_status,
       result.has_issues,
-      result.issues?.length || 0
+      result.issues?.length || 0,
+      result
     );
 
     switch (displayStatus.priority) {
       case 1: counts.urgent++; break;
-      case 2: counts.error++; break;
-      case 3:
-      case 4: counts.checkNeeded++; break;
-      case 6: counts.debugging++; break;
-      case 5: counts.normal++; break;
+      case 2: counts.consentMode++; break;
+      case 3: counts.error++; break;
+      case 4:
+      case 5: counts.checkNeeded++; break;
+      case 6: counts.normal++; break;
+      case 7: counts.debugging++; break;
       default: break;
     }
   });
@@ -228,12 +262,14 @@ export function sortByPriority(results) {
     const statusA = getPropertyDisplayStatus(
       a.properties?.current_status || a.property_status,
       a.has_issues,
-      a.issues?.length || 0
+      a.issues?.length || 0,
+      a
     );
     const statusB = getPropertyDisplayStatus(
       b.properties?.current_status || b.property_status,
       b.has_issues,
-      b.issues?.length || 0
+      b.issues?.length || 0,
+      b
     );
 
     return statusA.priority - statusB.priority;
@@ -251,7 +287,8 @@ export function filterActionNeeded(results) {
     const displayStatus = getPropertyDisplayStatus(
       result.properties?.current_status || result.property_status,
       result.has_issues,
-      result.issues?.length || 0
+      result.issues?.length || 0,
+      result
     );
     return displayStatus.needsAction;
   });
@@ -259,6 +296,7 @@ export function filterActionNeeded(results) {
 
 export default {
   calculateHasIssues,
+  hasConsentModeIssue,
   getPropertyDisplayStatus,
   getStatusCounts,
   sortByPriority,
