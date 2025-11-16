@@ -1,0 +1,103 @@
+# Quality Gate: Story 8.1
+schema: 1
+story: "8.1"
+story_title: "Web Server and REST API"
+gate: CONCERNS
+status_reason: "Implementation functional but lacks automated tests, has security gaps (no rate limiting, input validation), and potential path traversal vulnerability in screenshot endpoint"
+reviewer: "Quinn (Test Architect)"
+updated: "2025-10-29T13:15:00Z"
+
+waiver: { active: false }
+
+top_issues:
+  - id: "TEST-001"
+    severity: high
+    finding: "No automated tests exist for any API endpoints or server functionality"
+    suggested_action: "Add integration tests for all 8 endpoints with success/error scenarios"
+    refs: ["src/server.js"]
+
+  - id: "SEC-001"
+    severity: high
+    finding: "No rate limiting on API endpoints - vulnerable to DoS attacks"
+    suggested_action: "Implement rate limiting middleware (express-rate-limit) for all API routes"
+    refs: ["src/server.js:70-73"]
+
+  - id: "SEC-002"
+    severity: high
+    finding: "Path traversal vulnerability in screenshot endpoint - no input sanitization"
+    suggested_action: "Sanitize filename parameter to prevent directory traversal (../../sensitive-file)"
+    refs: ["src/server.js:291-306"]
+
+  - id: "SEC-003"
+    severity: medium
+    finding: "No input validation on query parameters (limit) or path parameters (date, slug)"
+    suggested_action: "Add validation middleware to sanitize and validate all inputs"
+    refs: ["src/server.js:174-236"]
+
+  - id: "PERF-001"
+    severity: medium
+    finding: "Synchronous file operations in loops can block event loop for large datasets"
+    suggested_action: "Use Promise.all() for parallel file reads in getResultsForDate()"
+    refs: ["src/server.js:94-112"]
+
+  - id: "REL-001"
+    severity: low
+    finding: "Error responses lose original error context - harder to debug"
+    suggested_action: "Log full error stack and return structured error responses with error codes"
+    refs: ["src/server.js:309-315"]
+
+quality_score: 50  # 100 - (3 × 10) - (2 × 10) = 50
+
+evidence:
+  tests_reviewed: 0
+  manual_tests: 5
+  risks_identified: 6
+  trace:
+    ac_covered: [1, 2, 3, 4, 5]  # All ACs implemented
+    ac_gaps: []  # No test coverage
+    test_gaps: [1, 2, 3, 4, 5]  # No automated tests for any AC
+
+nfr_validation:
+  security:
+    status: FAIL
+    notes: "No rate limiting, input validation, or path traversal protection"
+  performance:
+    status: CONCERNS
+    notes: "Synchronous file operations in loops could block under load"
+  reliability:
+    status: CONCERNS
+    notes: "Generic error handling loses debugging context"
+  maintainability:
+    status: PASS
+    notes: "Clean code structure, good documentation, modular design"
+
+recommendations:
+  immediate:  # Must fix before production
+    - action: "Add rate limiting to all API endpoints (express-rate-limit)"
+      refs: ["src/server.js:70"]
+      priority: P0
+    - action: "Sanitize filename parameter in screenshot endpoint to prevent path traversal"
+      refs: ["src/server.js:293-294"]
+      priority: P0
+    - action: "Add input validation middleware for all parameters"
+      refs: ["src/server.js:174-236"]
+      priority: P0
+
+  high_priority:  # Should address soon
+    - action: "Add automated integration tests for all 8 API endpoints"
+      refs: ["test/server.test.js (create)"]
+      priority: P1
+    - action: "Optimize file reading with Promise.all() for parallel operations"
+      refs: ["src/server.js:100-106"]
+      priority: P1
+
+  future:  # Nice to have
+    - action: "Add request logging middleware (morgan)"
+      refs: ["src/server.js:70"]
+      priority: P2
+    - action: "Add API documentation (Swagger/OpenAPI)"
+      refs: ["docs/api-spec.yaml (create)"]
+      priority: P2
+    - action: "Consider response caching for frequently accessed data"
+      refs: ["src/server.js:174-197"]
+      priority: P2

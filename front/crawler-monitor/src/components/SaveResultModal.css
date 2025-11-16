@@ -1,0 +1,215 @@
+/**
+ * SaveResultModal Component Styles - Story 9.4 Task 6.1
+ */
+
+.save-result-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Run Information Summary */
+.run-info-summary {
+  background-color: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-600);
+}
+
+.info-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.info-value.highlight {
+  color: var(--warning-text);
+  background-color: var(--warning-bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Memo Input Section */
+.memo-input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.memo-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.memo-label .required {
+  color: var(--error-text);
+  margin-left: 2px;
+}
+
+.memo-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--gray-900);
+  font-family: inherit;
+  resize: vertical;
+  min-height: 120px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.memo-textarea:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.memo-textarea:disabled {
+  background-color: var(--gray-100);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.memo-textarea::placeholder {
+  color: var(--gray-400);
+}
+
+.memo-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.char-count {
+  color: var(--gray-500);
+}
+
+.keyboard-hint {
+  color: var(--gray-400);
+  font-style: italic;
+}
+
+/* Help Text */
+.help-text {
+  padding: 12px 16px;
+  background-color: var(--primary-blue-light, #EBF5FF);
+  border-left: 3px solid var(--primary-blue);
+  border-radius: 4px;
+}
+
+.help-text p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--gray-700);
+  line-height: 1.5;
+}
+
+.help-text strong {
+  font-weight: 600;
+  color: var(--primary-blue);
+}
+
+/* Button Styles */
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-blue);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-blue-dark);
+}
+
+.btn-primary:disabled {
+  background-color: var(--gray-300);
+  color: var(--gray-500);
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: var(--gray-700);
+  border: 1px solid var(--gray-300);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--gray-50);
+  border-color: var(--gray-400);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary svg,
+.btn-secondary svg {
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .save-result-modal-content {
+    gap: 20px;
+  }
+
+  .run-info-summary {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .memo-textarea {
+    min-height: 100px;
+    font-size: 13px;
+  }
+
+  .help-text {
+    padding: 10px 12px;
+  }
+
+  .help-text p {
+    font-size: 12px;
+  }
+
+  .keyboard-hint {
+    display: none;
+  }
+}

@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+
+# Output directories
+results/
+screenshots/
+logs/
+
+# Playwright
+.playwright/
+playwright-report/
+test-results/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.log
+
+# Supabase local
+.supabase/
+supabase/.branches/
+supabase/.temp/
+
+# Test reports
+test-reports/
+coverage/
+.nyc_output/
+
+# Build artifacts
+dist/
+build/
+
+# Environment backups
+.env.backup
+.env.*.backup

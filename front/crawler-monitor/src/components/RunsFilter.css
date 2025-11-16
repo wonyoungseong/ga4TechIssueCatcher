@@ -1,0 +1,224 @@
+/**
+ * RunsFilter Component Styles - Story 9.4 Task 3
+ */
+
+.runs-filter {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+/* Filter Header */
+.runs-filter .filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.runs-filter .filter-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.runs-filter .filter-title svg {
+  color: var(--primary-blue);
+}
+
+.runs-filter .filter-title h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.runs-filter .btn-reset {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.runs-filter .btn-reset:hover {
+  background: var(--gray-200);
+  border-color: var(--gray-400);
+}
+
+.runs-filter .btn-reset:active {
+  transform: scale(0.98);
+}
+
+/* Filter Content */
+.runs-filter .filter-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Filter Section */
+.runs-filter .filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.runs-filter .filter-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.runs-filter .filter-label svg {
+  color: var(--gray-500);
+}
+
+/* Date Presets */
+.runs-filter .filter-presets {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.runs-filter .btn-preset {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.runs-filter .btn-preset:hover {
+  background: var(--primary-blue-light);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.runs-filter .btn-preset:active {
+  transform: scale(0.98);
+}
+
+/* Date Inputs */
+.runs-filter .filter-date-inputs {
+  display: flex;
+  gap: 12px;
+}
+
+.runs-filter .date-input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.runs-filter .date-input-group label {
+  font-size: 12px;
+  color: var(--gray-600);
+}
+
+.runs-filter .input-date {
+  padding: 8px 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--gray-900);
+  transition: all 0.2s ease;
+}
+
+.runs-filter .input-date:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Select Dropdown */
+.runs-filter .filter-select {
+  padding: 10px 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--gray-900);
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.runs-filter .filter-select:hover {
+  border-color: var(--gray-400);
+}
+
+.runs-filter .filter-select:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Search Input */
+.runs-filter .filter-search {
+  padding: 10px 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--gray-900);
+  transition: all 0.2s ease;
+}
+
+.runs-filter .filter-search::placeholder {
+  color: var(--gray-400);
+}
+
+.runs-filter .filter-search:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .runs-filter .filter-content {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .runs-filter {
+    padding: 16px;
+  }
+
+  .runs-filter .filter-content {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .runs-filter .filter-presets {
+    flex-direction: column;
+  }
+
+  .runs-filter .filter-date-inputs {
+    flex-direction: column;
+  }
+
+  .runs-filter .btn-preset {
+    width: 100%;
+  }
+}

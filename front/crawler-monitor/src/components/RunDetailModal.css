@@ -1,0 +1,45 @@
+/**
+ * RunDetailModal Styles
+ */
+
+.run-detail-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.run-info-header {
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  padding-bottom: 16px;
+}
+
+.run-info-header h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.run-info-subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #666);
+}
+
+/* Override default ResultsTable container styles when in modal */
+.run-detail-modal-content .results-table-container {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Ensure table fits well in modal */
+.run-detail-modal-content table {
+  font-size: 0.875rem;
+}
+
+/* Adjust modal content spacing */
+.run-detail-modal-content .results-table {
+  max-height: 60vh;
+  overflow-y: auto;
+}

@@ -1,0 +1,6 @@
+,계정명,속성명,WebStream Measurement ID,사이트 유형,대표 URLs,웹/앱 여부,Web GTM Pubilic ID,Android GTM Pubilic ID,iOS GTM Pubilic ID,Dataset ID,마케팅 GTM,whitelist
+,[GA4] Amorepacific - Ecommerce,[EC] AMOREMALL - KR,G-FZGDPV2WNV,이커머스,https://www.amoremall.com/kr/ko/display/main,웹/앱,GTM-5FK5X5C4,GTM-57CZBMVR,GTM-PRB9ZFHW,analytics_416629733,,"amoremall.com,brand.amoremall.com"
+,[GA4] Amorepacific - Ecommerce,[EC] INNISFREE - KR,G-PKG8ZN03QW,이커머스,https://www.innisfree.com/kr/ko/Main.do,웹/앱,GTM-TC4GB5CF,GTM-MSLVKS9C,GTM-K8QQVRD6,analytics_416711867,,"innisfree.com,m.innisfree.com"
+,[GA4] Amorepacific - Ecommerce,[EC] ARITAUM - KR,G-00V8Q7C3TE,이커머스,https://www.aritaum.com/main.do,웹,GTM-5ZZMCQ9B,-,-,analytics_416612114,,aritaum.com
+,[GA4] Amorepacific - Ecommerce,[EC] OSULLOC - KR,G-46DFPHV30H,이커머스,https://www.osulloc.com/kr/ko,웹,GTM-KW8MKLBZ,-,-,analytics_416602402,,osulloc.com
+,[GA4] Amorepacific - Ecommerce,[EC] AESTURA - KR,G-84NHR3996T,이커머스,https://www.aestura.com/web/main.do,웹,GTM-MZH2JRFN,-,-,analytics_416680783,,aestura.com

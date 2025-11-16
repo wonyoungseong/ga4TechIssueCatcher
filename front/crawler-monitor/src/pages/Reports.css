@@ -1,0 +1,399 @@
+/**
+ * Reports Page Styles - Story 9.4
+ */
+
+/* Page Container */
+.reports-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Header */
+.reports-header {
+  margin-bottom: 32px;
+}
+
+.reports-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 8px;
+}
+
+.reports-subtitle {
+  font-size: 16px;
+  color: var(--gray-600);
+}
+
+/* Loading State */
+.reports-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+/* Content Area */
+.reports-content {
+  margin-bottom: 32px;
+}
+
+/* Runs List */
+.runs-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+/* Run Card */
+.run-card {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.run-card:hover {
+  border-color: var(--primary-blue);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.run-card:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(91, 124, 255, 0.1);
+}
+
+.run-card-selected {
+  border-color: var(--primary-blue);
+  background: rgba(91, 124, 255, 0.05);
+}
+
+/* Run Header */
+.run-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.run-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 0;
+}
+
+/* Status Badge */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-blue {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.status-green {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.status-red {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.status-orange {
+  background: #FED7AA;
+  color: #9A3412;
+}
+
+/* Run Stats */
+.run-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--gray-50);
+}
+
+.stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.stat-blue .stat-icon {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.stat-green .stat-icon {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.stat-red .stat-icon {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.stat-orange .stat-icon {
+  background: #FED7AA;
+  color: #9A3412;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray-900);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--gray-600);
+}
+
+/* Run Time */
+.run-time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--gray-600);
+}
+
+/* Pagination */
+.reports-pagination {
+  margin-top: 32px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+}
+
+.pagination-info {
+  font-size: 14px;
+  color: var(--gray-600);
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: white;
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--gray-100);
+  border-color: var(--gray-400);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pagination-number {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  background: white;
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-number:hover {
+  background: var(--gray-100);
+  border-color: var(--gray-400);
+}
+
+.pagination-number.active {
+  background: var(--primary-blue);
+  border-color: var(--primary-blue);
+  color: white;
+}
+
+.pagination-ellipsis {
+  padding: 0 8px;
+  color: var(--gray-400);
+  font-weight: 500;
+}
+
+/* Button Styles */
+.btn-primary {
+  padding: 10px 20px;
+  background: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #4A72FF;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Results Section - Task 2 */
+.reports-results {
+  margin-top: 32px;
+}
+
+.reports-results .results-header {
+  margin-bottom: 20px;
+}
+
+/* Task 6: Results Header with Save Button */
+.results-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.reports-results .results-header h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 0 0 8px 0;
+}
+
+.reports-results .results-subtitle {
+  font-size: 14px;
+  color: var(--gray-600);
+  margin: 0;
+}
+
+/* Task 6: Save Result Button */
+.btn-save-result {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--success-bg, #D1FAE5);
+  color: var(--success-text, #065F46);
+  border: 1px solid var(--success-text, #065F46);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-save-result:hover:not(:disabled) {
+  background: var(--success-text, #065F46);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-save-result:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-save-result:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.save-icon {
+  font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .reports-page {
+    padding: 16px;
+  }
+
+  .runs-list {
+    grid-template-columns: 1fr;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .pagination-numbers {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Task 6: Mobile responsive save button */
+  .results-header-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-save-result {
+    width: 100%;
+    justify-content: center;
+  }
+}

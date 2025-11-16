@@ -1,0 +1,63 @@
+{
+  "name": "ga4-tech-issue-catcher",
+  "version": "1.0.0",
+  "description": "Automated GA4/GTM configuration validation system for 100+ Amorepacific properties",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "server": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "node --test test/**/*.test.js",
+    "test:watch": "node --test --watch test/**/*.test.js",
+    "test:cache": "node scripts/test-temp-cache.js",
+    "test:upload": "node scripts/test-batch-upload.js",
+    "test:scheduler": "node scripts/test-cleanup-scheduler.js",
+    "test:lifecycle": "npm run test:cache && npm run test:upload && npm run test:scheduler",
+    "test:local-connection": "node scripts/test-local-connection.js",
+    "test:screenshot-comparison": "node scripts/compare-screenshot-sizes.js",
+    "test:e2e-local": "node scripts/test-e2e-local.js",
+    "test:full-migration": "node scripts/test-full-migration.js",
+    "migration:verify": "npm run test:full-migration",
+    "db:import": "node scripts/import-properties-to-supabase.js",
+    "db:test": "node -e \"import('./src/utils/supabase.js').then(m => m.testConnection())\"",
+    "db:migrate": "node scripts/run-migration.js",
+    "storage:setup": "node scripts/create-storage-bucket.js",
+    "setup:lifecycle": "npm run storage:setup && npm run db:migrate"
+  },
+  "keywords": [
+    "ga4",
+    "gtm",
+    "analytics",
+    "validation",
+    "automation"
+  ],
+  "author": "Amorepacific Digital Analytics Team",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.78.0",
+    "cors": "^2.8.5",
+    "cron-parser": "^4.9.0",
+    "csv-parse": "^5.5.0",
+    "csv-parser": "^3.2.0",
+    "csv-stringify": "^6.6.0",
+    "dayjs": "^1.11.19",
+    "dotenv": "^16.3.0",
+    "express": "^4.18.2",
+    "express-rate-limit": "^8.1.0",
+    "multer": "^2.0.2",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.0",
+    "playwright": "^1.40.0",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "winston": "^3.11.0",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "shadcn": "^3.5.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

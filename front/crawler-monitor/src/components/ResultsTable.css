@@ -1,0 +1,410 @@
+/**
+ * ResultsTable Component Styles - Story 9.4 Task 2.2
+ */
+
+.results-table-container {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Task 4: Results Table Header with Export Button */
+.results-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.results-table-header .results-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.results-table-header .results-count {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.results-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  table-layout: fixed;
+}
+
+/* Table Header */
+.results-table thead {
+  background-color: var(--gray-50);
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.results-table th {
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--gray-700);
+  white-space: nowrap;
+}
+
+.results-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.results-table th.sortable:hover {
+  background-color: var(--gray-100);
+}
+
+.results-table .th-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.results-table .th-content svg {
+  color: var(--gray-500);
+  flex-shrink: 0;
+}
+
+/* Table Body */
+.results-table tbody tr {
+  border-bottom: 1px solid var(--gray-200);
+  transition: background-color 0.2s ease;
+}
+
+/* Task 5: Clickable Row Styling */
+.results-table tbody tr.clickable-row {
+  cursor: pointer;
+}
+
+.results-table tbody tr:hover {
+  background-color: var(--gray-50);
+}
+
+.results-table tbody tr.clickable-row:hover {
+  background-color: var(--primary-blue-light, #EBF5FF);
+}
+
+.results-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.results-table td {
+  padding: 12px 8px;
+  color: var(--gray-700);
+}
+
+/* Column Width Distribution for 5 columns (Total: ~1320px)
+   프로퍼티: 24% = 317px (텍스트 많음)
+   상태: 20% = 264px (텍스트 많음)
+   GA4 ID: 22% = 290px
+   GTM ID: 22% = 290px
+   이슈: 12% = 158px
+*/
+
+.results-table th:nth-child(1),
+.results-table td:nth-child(1) {
+  width: 30%;
+  min-width: 250px;
+}
+
+.results-table th:nth-child(2),
+.results-table td:nth-child(2) {
+  width: 20%;
+  min-width: 150px;
+}
+
+.results-table th:nth-child(3),
+.results-table td:nth-child(3) {
+  width: 22%;
+  min-width: 180px;
+}
+
+.results-table th:nth-child(4),
+.results-table td:nth-child(4) {
+  width: 22%;
+  min-width: 180px;
+}
+
+.results-table th:nth-child(5),
+.results-table td:nth-child(5) {
+  width: 12%;
+  min-width: 100px;
+}
+
+/* Property Name Column */
+.results-table .property-name {
+  font-weight: 500;
+  color: var(--gray-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* URL Column - removed as not used in this table */
+.results-table .property-url {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.results-table .url-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--primary-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.results-table .url-link:hover {
+  color: var(--primary-blue-dark);
+  text-decoration: underline;
+}
+
+.results-table .url-link svg {
+  flex-shrink: 0;
+}
+
+/* Status Column - Scenario-based display */
+.results-table .status-cell {
+  text-align: center;
+}
+
+.results-table .status-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.results-table .status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.results-table .status-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.results-table .status-label {
+  line-height: 1;
+}
+
+/* Scenario-based color classes */
+.results-table .status-badge.status-urgent {
+  background-color: #FEE2E2;
+  color: #DC2626;
+  border: 1px solid #DC2626;
+}
+
+.results-table .status-badge.status-error {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  border: 1px solid var(--error-border, #FCA5A5);
+}
+
+.results-table .status-badge.status-check-needed {
+  background-color: #DBEAFE;
+  color: #1E40AF;
+  border: 1px solid #3B82F6;
+}
+
+.results-table .status-badge.status-normal {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border, #86EFAC);
+}
+
+.results-table .status-badge.status-debugging {
+  background-color: var(--warning-bg);
+  color: var(--warning-text);
+  border: 1px solid var(--warning-border, #FCD34D);
+}
+
+.results-table .status-badge.status-unknown {
+  background-color: var(--gray-100);
+  color: var(--gray-600);
+  border: 1px solid var(--gray-300);
+}
+
+/* Blinking animation for high priority items */
+@keyframes blink-status {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.results-table .status-badge.blink-animation {
+  animation: blink-status 2s ease-in-out infinite;
+}
+
+/* Action indicator */
+.results-table .action-indicator {
+  font-size: 14px;
+  cursor: help;
+  animation: pulse-warning 2s ease-in-out infinite;
+}
+
+@keyframes pulse-warning {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Legacy status classes (for backward compatibility) */
+.results-table .status-badge.status-success {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+}
+
+.results-table .status-badge.status-failed,
+.results-table .status-badge.status-failure {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+}
+
+/* Validation Columns (GA4/GTM) */
+.results-table .validation-cell {
+  text-align: center;
+  min-width: 120px;
+}
+
+.results-table .no-data {
+  color: var(--gray-400);
+  font-style: italic;
+}
+
+/* Issues Column */
+.results-table .issues-cell {
+  text-align: center;
+}
+
+.results-table .issues-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background-color: var(--warning-bg);
+  color: var(--warning-text);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.results-table .issues-badge svg {
+  flex-shrink: 0;
+}
+
+.results-table .no-issues {
+  color: var(--gray-500);
+  font-size: 12px;
+}
+
+/* Screenshot Column */
+.results-table .screenshot-cell {
+  text-align: center;
+}
+
+.results-table .screenshot-link {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.results-table .screenshot-link:hover {
+  color: var(--primary-blue-dark);
+  text-decoration: underline;
+}
+
+/* Results Summary */
+.results-summary {
+  padding: 12px 16px;
+  background-color: var(--gray-50);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--gray-700);
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .results-table {
+    font-size: 13px;
+  }
+
+  .results-table th,
+  .results-table td {
+    padding: 12px;
+  }
+
+  .results-table .property-name {
+    max-width: 150px;
+  }
+
+  .results-table .property-url {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .results-table-container {
+    padding: 16px;
+  }
+
+  .results-table {
+    font-size: 12px;
+  }
+
+  .results-table th,
+  .results-table td {
+    padding: 8px;
+  }
+
+  .results-table .property-name {
+    max-width: 120px;
+  }
+
+  .results-table .property-url {
+    max-width: 150px;
+  }
+
+  .results-table .validation-cell {
+    min-width: 100px;
+  }
+}
+
+/* Loading and Empty States */
+.results-table-container > .loading-spinner,
+.results-table-container > .empty-state {
+  padding: 40px 20px;
+}

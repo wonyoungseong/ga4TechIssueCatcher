@@ -1,0 +1,70 @@
+.validation-badge {
+  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid;
+  font-size: 13px;
+}
+
+.validation-badge.match {
+  background-color: #f0fdf4;
+  border-color: #86efac;
+  color: #166534;
+}
+
+.validation-badge.mismatch {
+  background-color: #fef2f2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+.validation-badge.compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badge-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.badge-icon {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.compact .badge-icon {
+  font-size: 14px;
+}
+
+.badge-label {
+  font-weight: 600;
+}
+
+.badge-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-key {
+  font-weight: 500;
+  min-width: 60px;
+}
+
+.badge-value {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+}

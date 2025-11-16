@@ -1,0 +1,122 @@
+,계정명,속성명,WebStream Measurement ID,사이트 유형,대표 URLs,웹/앱 여부,Web GTM Pubilic ID,Android GTM Pubilic ID,iOS GTM Pubilic ID,Dataset ID,마케팅 GTM,whitelist
+,[GA4] Amorepacific - Ecommerce,[EC] AMOREMALL - KR,G-FZGDPV2WNV,이커머스,https://www.amoremall.com/kr/ko/display/main,웹/앱,GTM-5FK5X5C4,GTM-57CZBMVR,GTM-PRB9ZFHW,analytics_416629733,,"amoremall.com,brand.amoremall.com"
+,[GA4] Amorepacific - Ecommerce,[EC] INNISFREE - KR,G-PKG8ZN03QW,이커머스,https://www.innisfree.com/kr/ko/Main.do,웹/앱,GTM-TC4GB5CF,GTM-MSLVKS9C,GTM-K8QQVRD6,analytics_416711867,,
+,[GA4] Amorepacific - Ecommerce,[EC] ARITAUM - KR,G-00V8Q7C3TE,이커머스,https://www.aritaum.com/main.do,웹,GTM-5ZZMCQ9B,-,-,analytics_416612114,,aritaum.com
+,[GA4] Amorepacific - Ecommerce,[EC] OSULLOC - KR,G-46DFPHV30H,이커머스,https://www.osulloc.com/kr/ko,웹,GTM-KW8MKLBZ,-,-,analytics_416602402,,osulloc.com
+,[GA4] Amorepacific - Ecommerce,[EC] AESTURA - KR,G-84NHR3996T,이커머스,https://www.aestura.com/web/main.do,웹,GTM-MZH2JRFN,-,-,analytics_416680783,,aestura.com
+,[GA4] Amorepacific - Ecommerce,[EC] LABOH - KR,G-XHGW0FDJ87,이커머스,https://laboh.co.kr/,웹,GTM-PJD5VDF4,-,-,analytics_416571110,,"m.laboh.co.kr,laboh.co.kr"
+,[GA4] Amorepacific - Ecommerce,[EC] AYUNCHE - KR,G-P5J15QS8TB,이커머스,https://www.ayunche.com,웹,GTM-P7SDQSCP,-,-,analytics_416672048,,"m.ayunche.com,ayunche.com"
+,[GA4] Amorepacific - Ecommerce,[EC] AYUNCHEPRO - KR,G-LLLJVS3JRX,이커머스,https://www.ayunchepro.com,웹,GTM-MV2NCX5D,-,-,analytics_416705262,,"ayunchepro.com,m.ayunchepro.com,sales.ayunchepro.com,m.sales.ayunchepro.com"
+,[GA4] Amorepacific - Ecommerce,[EC] ILLIYOON - KR,G-G44JBGN2K2,이커머스,https://www.illiyoon.com,웹,GTM-PFZJG9F3,-,-,analytics_416714189,,illiyoon.com
+,[GA4] Amorepacific - Ecommerce,[EC] BRDY - KR,G-GZSC5HMXZ2,이커머스,https://www.brdy-official.com,웹,GTM-KCH4DTPM,-,-,analytics_416706974,GTM-NPC5TGJ,brdy-official.com
+,[GA4] Amorepacific - Ecommerce,[EC] ADITSHOP - KR,G-1WNRQ2RWZV,이커머스,https://m.a-ditshop.com,웹/앱,GTM-PX556SRJ,GTM-NWNJQBTG,GTM-TRWSB878,analytics_416624566,,m.a-ditshop.com
+,[GA4] Amorepacific - Ecommerce,[EC] ESPOIR,G-FXREB468E8,이커머스,https://www.espoir.com/ko/main.do,웹,GTM-T5QK2299,-,-,analytics_416696665,,espoir.com
+,,,,,https://www.espoir.com/en/main.do,웹,,,,,,
+,,,,,https://www.espoir.com/jp/main.do,웹,,,,,,
+,[GA4] Amorepacific - Brand,[BR] ETUDE,G-JFW4CW5YGP,브랜드,https://www.etude.com/,웹,GTM-T9L756SB,-,-,analytics_416710864,,etude.com
+,[GA4] Amorepacific - Brand,[BR] SULWHASOO,G-VPDD9H75HC,브랜드,https://www.sulwhasoo.com/kr/ko,웹,GTM-M3V7NC7D,-,-,analytics_416702651,,"sulwhasoo.com,sulwhasoo.com.cn"
+,,,,,https://www.sulwhasoo.com/int/en,웹,,-,-,,,
+,,,,,https://www.sulwhasoo.com.cn,웹,,-,-,,,
+,,,,,https://www.sulwhasoo.com/id/id,웹,,-,-,,,
+,[GA4] Amorepacific - Brand,[BR] INNISFREE,G-PKG8ZN03QW,브랜드,https://www.innisfree.com/id/en/,웹,GTM-KWPLZR3D,-,-,analytics_416706975,,"innisfree.cn,innisfree.com"
+,,,,,https://www.innisfree.com/id/id/,,,-,-,,,
+,,,,,https://www.innisfree.cn,,,-,-,,,
+,[GA4] Amorepacific - Brand,[BR] LANEIGE,G-945LXGX3PK,브랜드,https://www.laneige.com/kr/ko,웹,GTM-PRKNM8RP,-,-,analytics_416686667,,"laneige.com,laneige.com.cn"
+,,,,,https://www.laneige.com/int/en,웹,,-,-,,,
+,,,,,https://www.laneige.com.cn,웹,,-,-,,,
+,,,,,https://www.laneige.com/jp/ja,웹,,-,-,,,
+,,,,,https://www.laneige.com/id/id,웹,,-,-,,,
+,[GA4] Amorepacific - Brand,[BR] MAMONDE,G-P2CYBBCSEQ,브랜드,https://www.mamonde.com/kr/ko,웹,GTM-549T9S7B,-,-,analytics_416669438,,"mamonde.com,mamonde.com.cn"
+,,,,,https://www.mamonde.com/int/en,웹,,-,-,,,
+,,,,,https://www.mamonde.com.cn,웹,,-,-,,,
+,[GA4] Amorepacific - Brand,[BR] IOPE,G-MX5X9Y4QNH,브랜드,https://www.iope.com/kr/ko,웹,GTM-NHZ8C3NM,-,-,analytics_416644163,,"iope.com,iope.com.cn"
+,,,,,https://www.iope.com/int/en,웹,,-,-,,,
+,,,,,https://www.iope.com.cn,웹,,-,-,,,
+,[GA4] Amorepacific - Brand,[BR] HERA,G-CCXG04E6TQ,브랜드,https://www.hera.com/kr/ko,웹,GTM-KLH75MKG,-,-,analytics_416698158,,"hera.com,hera.com.cn,th.hera.com"
+,,,,,https://www.hera.com/int/en,웹,,-,-,,,
+,,,,,https://www.hera.com.cn,웹,,-,-,,,
+,,,,,https://www.hera.com/jp/ja,웹,,-,-,,,
+,,,,,https://th.hera.com/,웹,,-,-,,,
+,[GA4] Amorepacific - Brand,[BR] AP BEAUTY,G-ERD8SX72CY,브랜드,https://www.amorepacific.com/kr/ko,웹,GTM-MMJ634Z2,-,-,analytics_416685549,,"ap-beauty.com,ap-beauty.com.cn"
+,,,,,https://www.ap-beauty.com/kr/ko/index.html,웹,,-,-,,,
+,,,,,https://www.ap-beauty.com/int/en/index.html,웹,,-,-,,,
+,,,,,https://www.ap-beauty.com/cn,웹,,-,-,,,
+,[GA4] Amorepacific - Brand,[BR] PRMR,G-B85G6Y99ND,브랜드,https://www.primerabeauty.com/kr/ko,웹,GTM-PZFDNH2C,-,-,analytics_416701960,,"primerabeauty.cn,primerabeauty.com"
+,,,,,https://www.primerabeauty.cn,웹,,-,-,,,
+,[GA4] Amorepacific - Brand,[BR] RYO,G-Y2LSZ9YN8P,브랜드,https://www.ryo.com/kr/ko,웹,GTM-PR788XB4,-,-,analytics_416696428,,ryo.com
+,,,,,https://www.ryo.com/hk/zh,웹,,-,-,,,
+,,,,,https://www.ryo.com/tw/zh,웹,,-,-,,,
+,[GA4] Amorepacific - Brand,[BR] VITALBEAUTIE,G-W3WXPVMR99,브랜드,https://www.vitalbeautie.com/kr/ko,웹,GTM-TCBZFZT3,-,-,analytics_416650283,,vitalbeautie.com
+,[GA4] Amorepacific - Brand,[BR] HANYUL,G-3W3WWGRCH5,브랜드,https://www.hanyul.com/kr/ko,웹,GTM-MLPCFZWK,-,-,analytics_416635656,,hanyul.com
+,[GA4] Amorepacific - Brand,[BR] MISE EN SCENE,G-LJ15Z2HD9L,브랜드,https://www.miseenscene.com/kr/ko,웹,GTM-W22CW9XV,-,-,analytics_416724222,,miseenscene.com
+,,,,,https://www.miseenscene.com/tw/zh,웹,,-,-,,,
+,,,,,https://www.miseenscene.com/hk/zh,웹,,-,-,,,
+,[GA4] Amorepacific - Brand,[BR] TONEWORK,G-L0DBHWX4RV,브랜드,https://www.tonework.com,웹,GTM-TZ2BK7SH,-,-,analytics_416701961,,tonework.com
+,[GA4] Amorepacific - Brand,[BR] ARITAUM,G-GFDMQ0Q9VX,브랜드,https://us.aritaum.com/,웹,GTM-W4Z8P8D5,-,-,analytics_418848842,,us.aritaum.com
+,[GA4] Amorepacific - Global D2C,[EC] AMOREMALL - GL,G-TV671RWMZG,이커머스,https://global.amoremall.com,웹,GTM-5J8C64SV,-,-,analytics_416573537,,global.amoremall.com
+,,,,,https://global.amoremall.com/ja,웹,,-,-,,,
+,[GA4] Amorepacific - Global D2C,[EC] AMOREPACIFIC - US,G-825Q30M1ZL,이커머스,https://us.amorepacific.com,웹,GTM-5ZBFG6H9,-,-,analytics_416693455,,us.amorepacific.com
+,[GA4] Amorepacific - Global D2C,[EC] AMOREPACIFIC - HK,G-EJR4WH09BQ,이커머스,https://hk.amorepacific.com,웹,GTM-NBLCBTJ4,-,-,analytics_416696429,,hk.ap-beauty.com
+,[GA4] Amorepacific - Global D2C,[EC] LANEIGE - HK,G-Z2V3WK588X,이커머스,https://hk.laneige.com,웹,GTM-NKW2RTVN,-,-,analytics_416681139,,hk.laneige.com
+,[GA4] Amorepacific - Global D2C,[EC] LANEIGE - MY,G-8533Y6Z5P3,이커머스,https://my.laneige.com,웹,GTM-KN74TS2L,-,-,analytics_416669439,,my.laneige.com
+,[GA4] Amorepacific - Global D2C,[EC] LANEIGE - SG,G-VRW0T34CQN,이커머스,https://sg.laneige.com,웹,GTM-KW72BQVV,-,-,analytics_416684339,,"laneige.com,sg.laneige.com"
+,[GA4] Amorepacific - Global D2C,[EC] LANEIGE - PH,G-EC2JGYX9V1,이커머스,https://ph.laneige.com,웹,GTM-K3R7NF6B,-,-,analytics_416655966,,ph.laneige.com
+,[GA4] Amorepacific - Global D2C,[EC] LANEIGE - TH,G-DPBJC555EH,이커머스,https://th.laneige.com,웹,GTM-NSCPDWP6,-,-,analytics_416612115,,th.laneige.com
+,[GA4] Amorepacific - Global D2C,[EC] LANEIGE - TW,G-F6RJX3NW4L,이커머스,https://tw.laneige.com,웹,GTM-N227LWQQ,-,-,analytics_416662659,,tw.laneige.com
+,[GA4] Amorepacific - Global D2C,[EC] LANEIGE - VN,G-GXGVWCZDZ0,이커머스,https://www.laneige.com.vn,웹,GTM-THXXNJTP,-,-,analytics_416589887,,laneige.com.vn
+,[GA4] Amorepacific - Global D2C,[EC] LANEIGE - US,G-D3QLV6VJ84,이커머스,https://us.laneige.com,웹,GTM-54THZG2S,-,-,analytics_416701205,,us.laneige.com
+,[GA4] Amorepacific - Global D2C,[EC] SULWHASOO - US,G-L9NFD60EKR,이커머스,https://us.sulwhasoo.com,웹,GTM-KRZMBR4J,-,-,analytics_416705263,,us.sulwhasoo.com
+,[GA4] Amorepacific - Global D2C,[EC] SULWHASOO - HK,G-BCLD6KEN2B,이커머스,https://hk.sulwhasoo.com,웹,GTM-5Q5ZBVNS,-,-,analytics_416693456,,hk.sulwhasoo.com
+,[GA4] Amorepacific - Global D2C,[EC] SULWHASOO - MY,G-5RC0R4P330,이커머스,https://my.sulwhasoo.com,웹,GTM-T42ZW4JS,-,-,analytics_416605045,,"my.sulwhasoo.com,sulwhasoo.com"
+,[GA4] Amorepacific - Global D2C,[EC] SULWHASOO - SG,G-N8FSX6Q69M,이커머스,https://sg.sulwhasoo.com,웹,GTM-WWB2LVJG,-,-,analytics_416668793,,"sg.sulwhasoo.com,sulwhasoo.com"
+,[GA4] Amorepacific - Global D2C,[EC] SULWHASOO - TH,G-GW3V84K7B8,이커머스,https://th.sulwhasoo.com,웹,GTM-WJZ54G76,-,-,analytics_416701782,,"th.sulwhasoo.com,sulwhasoo.com"
+,[GA4] Amorepacific - Global D2C,[EC] SULWHASOO - VN,G-G3SV7X401V,이커머스,https://vn.sulwhasoo.com,웹,GTM-5XK99TD8,-,-,analytics_416624567,,vn.sulwhasoo.com
+,[GA4] Amorepacific - Global D2C,[EC] SULWHASOO - TW,G-XSJSJCP6R9,이커머스,https://tw.sulwhasoo.com/,웹,GTM-NTC3HC9K,-,-,analytics_416612116,,tw.sulwhasoo.com
+,[GA4] Amorepacific - Global D2C,[EC] INNISFREE - JP,G-H1KEQEVLT2,이커머스,https://www.innisfree.jp,웹,GTM-WDWNGWDB,-,-,analytics_416525487,,innisfree.jp
+,[GA4] Amorepacific - Global D2C,[EC] INNISFREE - SG,G-PZZD63BF1H,이커머스,https://sg.innisfree.com,웹,GTM-MDPQVHVB,-,-,analytics_416707468,,sg.innisfree.com
+,[GA4] Amorepacific - Global D2C,[EC] INNISFREE - TW,G-6ZRD118Q83,이커머스,https://www.innisfree.com.tw,웹,GTM-KNJQRTPM,-,-,analytics_416705264,,innisfree.com.tw
+,[GA4] Amorepacific - Global D2C,[EC] INNISFREE - VN,G-6BGVJBE29D,이커머스,https://www.innisfree.vn,웹/앱,GTM-NN88DL78,-,-,analytics_416650284,,innisfree.vn
+,[GA4] Amorepacific - Global D2C,[EC] INNISFREE - AU,G-HY2KE0E2R9,이커머스,https://au.innisfree.com,웹,GTM-P95XPBZR,-,-,analytics_416693457,,au.innisfree.com
+,[GA4] Amorepacific - Global D2C,[EC] INNISFREE - MY,G-N2GXQ6T4TP,이커머스,https://www.innisfree.my,웹,GTM-PDDXGBWW,-,-,analytics_416690241,,innisfree.my
+,[GA4] Amorepacific - Global D2C,[EC] INNISFREE - HK,G-BVN6GMTBR4,이커머스,https://hk.innisfree.com,웹,GTM-5KGVVHC8,-,-,analytics_416714190,,hk.innisfree.com
+,[GA4] Amorepacific - Global D2C,[EC] INNISFREE - IN,G-JN5XF0K10E,이커머스,https://in.innisfree.com,웹,GTM-MSKN6NPX,-,-,analytics_416650285,,in.innisfree.com
+,[GA4] Amorepacific - Global D2C,[EC] INNISFREE - PH,G-4M54ZNK74S,이커머스,https://ph.innisfree.com,웹,GTM-T58LSDB6,-,-,analytics_416635942,,ph.innisfree.com
+,[GA4] Amorepacific - Global D2C,[EC] INNISFREE - TH,G-113ZV28DST,이커머스,https://th.innisfree.com,웹,GTM-TR9JVL79,-,-,analytics_416680710,,th.innisfree.com
+,[GA4] Amorepacific - Global D2C,[EC] INNISFREE - US,G-XF173Q3CLE,이커머스,https://us.innisfree.com,웹,GTM-WT798PHC,-,-,analytics_416698406,,us.innisfree.com
+,[GA4] Amorepacific - Global D2C,[EC] ETUDE - JP,G-PDFTSBWL89,이커머스,https://www.etudehouse.com/jp/ja/,웹,GTM-PHWJJWSH,-,-,analytics_416697349,,etudehouse.com
+,[GA4] Amorepacific - Global D2C,[EC] HERA - JP,G-HX8K4S0JXC,이커머스,https://jp.hera.com/,웹,GTM-PWTTZSJG,-,-,analytics_421084533,,jp.hera.com
+,[GA4] Amorepacific - Others,[OTHERS] APGROUP,G-4RJLWDME32,기타,https://www.apgroup.com/int/ko,웹,GTM-W66WKRKZ,-,-,analytics_416574000,,apgroup.com
+,,,,,https://www.apgroup.com/int/en,웹,,-,-,,,
+,,,,,https://www.apgroup.com/int/zh,웹,,-,-,,,
+,,,,,https://www.apgroup.com/jp/ja,웹,,-,-,,,
+,,,,,https://www.apgroup.com/my/en/,웹,,-,-,,,
+,,,,,https://www.apgroup.com/tw/zh,웹,,-,-,,,
+,[GA4] Amorepacific - Others,[OTHERS] 옴니회원플랫폼,G-0DMNZC4JXE,기타,https://one-ap.amorepacific.com/,웹,GTM-KGCJ8PF5,-,-,analytics_416713480,,"one3-ap.amorepacific.com,one-ap.amorepacific.com"
+,[GA4] Amorepacific - Others,[OTHERS] 아모레팩토리 오디오 가이드,G-K8WCVSEV5W,기타,https://tour.amorepacific.com,웹/앱,GTM-KHZ64DNM,-,-,analytics_416650437,,tour.amorepacific.com
+,[GA4] Amorepacific - Others,[OTHERS] 아모레퍼시픽 미술관,G-P9SJQDHKTB,기타,https://apma.amorepacific.com/index.do,웹/앱,GTM-NNTXRQ5J,-,-,analytics_416692289,,"apma.amorepacific.com,m.apma.amorepacific.com"
+,[GA4] Amorepacific - Others,[OTHERS] 아모레스토리,G-0R7R0VX7ML,기타,https://stories.amorepacific.com/,웹,GTM-TRTNBQ5J,-,-,analytics_416690243,,stories.amorepacific.com
+,,,,,https://stories.amorepacific.com/en/,웹,,-,-,,,
+,,,,,https://stories.amorepacific.com/zh/,웹,,-,-,,,
+,[GA4] Amorepacific - Others,[OTHERS] 퍼시픽패키지,G-01SEZN05ZS,기타,https://www.pacificpackage.co.kr/,웹,GTM-M3VWFSRR,-,-,analytics_416612117,,pacificpackage.co.kr
+,[GA4] Amorepacific - Others,[OTHERS] 아모레 카운셀러,G-9EZYKRYZ0Z,기타,https://www.amorecounselor.com/kr/ko/b/html/main.html,웹,GTM-NWQBWBPF,-,-,analytics_416689685,,amorecounselor.com
+,[GA4] Amorepacific - Others,[OTHERS] 뷰티스퀘어,G-G6C5WMR0EF,기타,https://bstlms.amorepacific.com/,웹,GTM-PB22PV3J,-,-,analytics_416703787,,bstlms.amorepacific.com
+,[GA4] Amorepacific - Others,[OTHERS] 디지털방판 모객시스템,G-GDY2N9SN42,기타,https://new.amorecounselor.com/,웹,GTM-PTWTV683,-,-,analytics_416704284,,new.amorecounselor.com
+,[GA4] Amorepacific - Others,[OTHERS] 라네즈 뷰티테크,G-6CCP1EVH3D,기타,"https://www.laneige-beautycurator.com/bts/lan/ https://bts.amorepacific.com/bts/lan/",웹,GTM-WJCSXWMT,-,-,analytics_416696667,,"bts.amorepacific.com,laneige-beautycurator.com"
+,[GA4] Amorepacific - Others,[OTHERS] 쉐이드피커,G-SHMDRQ90KY,기타,https://bts.amorepacific.com/sp/bts/,웹,GTM-WJCSXWMT,-,-,analytics_416691938,,bts.amorepacific.com
+,[GA4] Amorepacific - Others,[OTHERS] 시티랩,G-XQC6N9F0XH,기타,https://bts.amorepacific.com/bts/ctl/,웹,GTM-WJCSXWMT,-,-,analytics_416711869,,bts.amorepacific.com
+,[GA4] Amorepacific - Others,[OTHERS] AP브랜드,G-MJMZYMBC8R,기타,https://bts.amorepacific.com/bts/amp/,웹,GTM-WJCSXWMT,-,-,analytics_425821424,,bts.amorepacific.com
+,[GA4] Amorepacific - Others,[OTHERS] 아모레퍼시픽 공식 대시보드,G-TTV4CQLVYG,내부,http://dataplace.amorepacific.com/,웹,GTM-MXFPN4KH,-,-,analytics_416669440,,dataplace.amorepacific.com
+,[GA4] Amorepacific - Others,[OTHERS] 데이터플레이스,G-PQRLXGSECN,내부,https://dataplace-on.amorepacific.com,웹,GTM-PL474W3Z,-,-,analytics_416698159,,dataplace-on.amorepacific.com
+,[GA4] Amorepacific - Others,[OTHERS] 에스트라,G-7ETR9BTPGJ,기타,https://bts.amorepacific.com/bts/asb/,웹,GTM-WJCSXWMT,-,-,analytics_437631407,,bts.amorepacific.com
+,[GA4] Amorepacific - Others,[OTHERS] 북촌뷰티과학자의집,G-8E8QB0FNLZ,기타,https://bts.amorepacific.com/bts/bsh/,웹,GTM-WJCSXWMT,-,-,analytics_449610623,,bts.amorepacific.com
+,[GA4] Amorepacific - Others,[OTHERS] IOPE,G-1MK57KQN2C,기타,https://bts.amorepacific.com/bts/iob/,웹,GTM-WJCSXWMT,-,-,analytics_457869609,,bts.amorepacific.com
+,[GA4] Amorepacific - Brand,[BR] AESTURA- JP,G-VTPQSMCTX0,브랜드,https://jp.aestura.com,웹,GTM-5959TT48,-,-,analytics_460265099,,jp.aestura.com
+,[GA4] Amorepacific - Others,[OTHERS]VITAL BEAUTIE,G-1RQNYYH8NN,기타,https://bts.amorepacific.com/bts/btb/,웹,GTM-WJCSXWMT,-,-,analytics_462412412,,bts.amorepacific.com
+,[GA4] Amorepacific - Ecommerce,[EC] AMOSPRO - KR,G-L4BVNEPCSM,이커머스,https://amospro.amoshair.co.kr/,웹/앱,GTM-KGQLZ7JG,-,-,analytics_462679065,,
+,[GA4] Amorepacific - Others,[OTHERS] AMOSPRO BO,G-HXD5PXLPEY,기타,https://prdpro.amoshair.co.kr,웹,GTM-MB6DT9T7,-,-,analytics_462458292,,
+,[GA4] Amorepacific - Brand,[BR] AESTURA,G-67KP9F9311,브랜드,https://int.aestura.com/,웹,GTM-5R5DPT89,-,-,analytics_470303617,,
+,[GA4] Amorepacific - Ecommerce,[EC] MAKEON - KR,G-EHCZCPHQ9X,이커머스,https://make-on.com,웹,GTM-W2ZKJTVD,-,-,analytics_479578062,,
+,,,,,,웹,,-,-,,,
+,[GA4] Amorepacific - Brand,[BR] HERA,G-CCXG04E6TQ,브랜드,https://int.hera.com/,웹,GTM-PFGXXVL9,-,-,analytics_416698158,,"hera.com,hera.com.cn,th.hera.com"
+,[GA4] Amorepacific - Brand,[BR] AP BEAUTY ,G-ERD8SX72CY,브랜드,https://int.ap-beauty.com/,웹,GTM-PQZZBVN9 ,-,-,analytics_416685549,,"ap-beauty.com,ap-beauty.com.cn"
+,[GA4] Amorepacific - Brand,[BR] MAMONDE,G-P2CYBBCSEQ,브랜드,https://www.mamonde.com/int/en,웹,GTM-KBHX2QCT,,,analytics_416669438,,"mamonde.com,mamonde.com.cn"
