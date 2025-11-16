@@ -1,5 +1,11 @@
 # GA4 Tech Issue Catcher 🚀
 
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![Node Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
+[![Playwright](https://img.shields.io/badge/playwright-1.40.0-45ba4b)](https://playwright.dev)
+[![CI](https://github.com/wonyoungseong/ga4TechIssueCatcher/workflows/CI/badge.svg)](https://github.com/wonyoungseong/ga4TechIssueCatcher/actions)
+[![Tests](https://github.com/wonyoungseong/ga4TechIssueCatcher/workflows/Tests/badge.svg)](https://github.com/wonyoungseong/ga4TechIssueCatcher/actions)
+
 Automated GA4/GTM configuration validation system with real-time web dashboard for 100+ Amorepacific digital properties.
 
 ## Overview
@@ -624,13 +630,24 @@ The cleanup scheduler has been migrated from .env to database storage for dynami
 
 ---
 
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on:
+- Code of Conduct
+- Development setup
+- Submitting pull requests
+- Coding standards
+
 ## License
 
-ISC
+ISC - See [LICENSE](LICENSE) for details.
 
 ## Support
 
-For issues or questions, contact the Digital Analytics Team.
+For issues or questions:
+- 📝 [Create an Issue](https://github.com/wonyoungseong/ga4TechIssueCatcher/issues/new/choose)
+- 💬 [GitHub Discussions](https://github.com/wonyoungseong/ga4TechIssueCatcher/discussions)
+- 📧 Contact the Digital Analytics Team
 
 ---
 
