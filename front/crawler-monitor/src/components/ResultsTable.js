@@ -258,7 +258,8 @@ function ResultsTable({ results, allResults, runId, loading, error, onRetry }) {
                     const displayStatus = getPropertyDisplayStatus(
                       result.properties?.current_status || result.property_status,
                       calculateHasIssues(result),
-                      result.issues?.length || 0
+                      result.issues?.length || 0,
+                      result
                     );
                     return (
                       <div className="status-display">

@@ -224,6 +224,12 @@
   border: 1px solid var(--error-border, #FCA5A5);
 }
 
+.results-table .status-badge.status-consent-mode {
+  background-color: #EDE9FE;
+  color: #6B21A8;
+  border: 1px solid #9333EA;
+}
+
 .results-table .status-badge.status-check-needed {
   background-color: #DBEAFE;
   color: #1E40AF;
