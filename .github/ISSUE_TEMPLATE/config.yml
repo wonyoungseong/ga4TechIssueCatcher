@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://github.com/wonyoungseong/ga4TechIssueCatcher/blob/main/README.md
+    about: 프로젝트 문서 및 사용 가이드
+  - name: 💬 Discussions
+    url: https://github.com/wonyoungseong/ga4TechIssueCatcher/discussions
+    about: 질문, 아이디어, 토론을 위한 공간
