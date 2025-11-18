@@ -120,6 +120,10 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/', apiLimiter); // Apply rate limiting to all API routes (skips localhost in development)
 
+// Serve static files from React build
+const frontendBuildPath = path.join(__dirname, '../front/crawler-monitor/build');
+app.use(express.static(frontendBuildPath));
+
 // API Routes
 app.use('/api/properties', propertiesRouter);
 app.use('/api/crawl', crawlRouter);
@@ -491,6 +495,12 @@ app.get('/api/screenshots/:date/:filename', async (req, res) => {
       code: 'NOT_FOUND'
     });
   }
+});
+
+// SPA fallback route - serve index.html for all non-API routes
+// This must be placed AFTER all API routes but BEFORE error handler
+app.get('*', (req, res) => {
+  res.sendFile(path.join(frontendBuildPath, 'index.html'));
 });
 
 // Error handling middleware (REL-001: Structured error responses)
