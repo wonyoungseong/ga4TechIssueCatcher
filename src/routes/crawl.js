@@ -162,7 +162,7 @@ router.post('/start', async (req, res) => {
 
     // Get configuration from request body or use defaults
     const {
-      browserPoolSize = parseInt(process.env.BROWSER_POOL_SIZE) || 7,
+      browserPoolSize = parseInt(process.env.BROWSER_POOL_SIZE) || 2,
       propertyIds = null // If null, crawl all active properties
     } = req.body;
 
