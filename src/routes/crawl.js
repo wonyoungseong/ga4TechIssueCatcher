@@ -151,6 +151,15 @@ router.get('/status', async (req, res) => {
  */
 router.post('/start', async (req, res) => {
   try {
+    // Check if crawl is disabled (for production/low-memory environments)
+    if (process.env.DISABLE_CRAWL_START === 'true') {
+      return res.status(403).json({
+        success: false,
+        error: 'Crawl execution is disabled in this environment. Please run crawls locally.',
+        reason: 'CRAWL_DISABLED'
+      });
+    }
+
     // Check if crawl is already running
     if (currentCrawlState.isRunning) {
       return res.status(409).json({
