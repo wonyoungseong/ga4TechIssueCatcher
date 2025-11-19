@@ -8,7 +8,7 @@
     "start": "node src/index.js",
     "server": "node src/server.js",
     "dev": "node src/server.js",
-    "build": "cd front/crawler-monitor && npm install && npm run build",
+    "build": "bash scripts/render-build.sh",
     "build:backend": "npx playwright install chromium",
     "build:all": "npm run build:backend && npm run build",
     "test": "node --test test/**/*.test.js",
