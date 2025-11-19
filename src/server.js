@@ -116,6 +116,7 @@ const apiLimiter = rateLimit({
 });
 
 // Middleware
+app.set('trust proxy', 1); // Trust first proxy (required for Render.com)
 app.use(cors());
 app.use(express.json());
 app.use('/api/', apiLimiter); // Apply rate limiting to all API routes (skips localhost in development)
