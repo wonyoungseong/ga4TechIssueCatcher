@@ -144,7 +144,13 @@ const Dashboard = () => {
       }
     } catch (error) {
       console.error('Error starting crawl:', error);
-      showToast(error.message || '크롤링 시작에 실패했습니다', 'error');
+
+      // Check if crawl is disabled in this environment
+      if (error.message && error.message.includes('disabled in this environment')) {
+        showToast('이 환경에서는 크롤링이 비활성화되어 있습니다. 로컬 환경에서 실행해주세요.', 'warning');
+      } else {
+        showToast(error.message || '크롤링 시작에 실패했습니다', 'error');
+      }
     } finally {
       setIsStarting(false);
     }
