@@ -18,6 +18,7 @@ import { formatDate, formatDuration } from '../utils/formatters';
 import { getStatusLabel, getStatusColor } from '../utils/statusUtils';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import BrowserPoolStatus from '../components/BrowserPoolStatus';
+import EnvironmentBanner from '../components/EnvironmentBanner';
 import { API_BASE_URL } from '../utils/constants';
 import './Dashboard.css';
 
@@ -34,6 +35,8 @@ const Dashboard = () => {
   const [browserPoolSize, setBrowserPoolSize] = useState(7);
   const [tempBrowserPoolSize, setTempBrowserPoolSize] = useState('7'); // 입력 중인 값 (문자열)
   const [localCrawlStatus, setLocalCrawlStatus] = useState(null);
+  const [environment, setEnvironment] = useState(null);
+  const [isLoadingEnvironment, setIsLoadingEnvironment] = useState(true);
 
   // WebSocket real-time updates
   const { crawlStatus: wsCrawlStatus, connected } = useCrawlStatus(true);
@@ -48,6 +51,26 @@ const Dashboard = () => {
         setTempBrowserPoolSize(saved);
       }
     }
+  }, []);
+
+  // Fetch environment information on mount
+  useEffect(() => {
+    const fetchEnvironment = async () => {
+      try {
+        setIsLoadingEnvironment(true);
+        const response = await apiHelpers.getEnvironment();
+        if (response.success) {
+          setEnvironment(response.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch environment:', error);
+        // Fail-safe: assume crawl is enabled if fetch fails (local environment)
+        setEnvironment({ crawlDisabled: false });
+      } finally {
+        setIsLoadingEnvironment(false);
+      }
+    };
+    fetchEnvironment();
   }, []);
 
   // Fetch statistics on mount
@@ -136,15 +159,27 @@ const Dashboard = () => {
       const response = await apiHelpers.startCrawl({ browserPoolSize });
 
       if (response.success) {
-        showToast('크롤링이 시작되었습니다', 'success');
-        // Navigate to processing page to monitor progress
-        navigate('/processing');
+        // Check if response is queue mode or immediate execution
+        if (response.mode === 'queued') {
+          showToast('크롤 요청이 큐에 추가되었습니다. 로컬 환경에서 자동으로 처리됩니다.', 'success');
+          // Stay on dashboard to see queue status
+        } else {
+          showToast('크롤링이 시작되었습니다', 'success');
+          // Navigate to processing page to monitor progress
+          navigate('/processing');
+        }
       } else {
         showToast('크롤링 시작에 실패했습니다', 'error');
       }
     } catch (error) {
       console.error('Error starting crawl:', error);
-      showToast(error.message || '크롤링 시작에 실패했습니다', 'error');
+
+      // Check if crawl is disabled in this environment
+      if (error.message && error.message.includes('disabled in this environment')) {
+        showToast('이 환경에서는 크롤링이 비활성화되어 있습니다. 로컬 환경에서 실행해주세요.', 'warning');
+      } else {
+        showToast(error.message || '크롤링 시작에 실패했습니다', 'error');
+      }
     } finally {
       setIsStarting(false);
     }
@@ -237,6 +272,12 @@ const Dashboard = () => {
       <div className="dashboard-actions">
         {!isRunning ? (
           <>
+            {environment?.crawlDisabled && (
+              <EnvironmentBanner
+                message="큐 모드 - 요청이 로컬 환경에서 자동으로 처리됩니다"
+                type="info"
+              />
+            )}
             <div className="control-group">
               <label htmlFor="browserPoolSize">브라우저 풀 크기 (최대 7):</label>
               <input
@@ -244,14 +285,14 @@ const Dashboard = () => {
                 type="text"
                 value={tempBrowserPoolSize}
                 onChange={handlePoolSizeChange}
-                disabled={isStarting}
+                disabled={isStarting || isLoadingEnvironment}
                 className="pool-size-input"
                 placeholder="1-7"
               />
               <button
                 className="btn-secondary btn-save"
                 onClick={handleSavePoolSize}
-                disabled={isStarting || tempBrowserPoolSize === browserPoolSize.toString()}
+                disabled={isStarting || isLoadingEnvironment || tempBrowserPoolSize === browserPoolSize.toString()}
                 title="브라우저 풀 크기 저장"
               >
                 <Save size={18} />
@@ -261,41 +302,42 @@ const Dashboard = () => {
             <button
               className="btn-primary"
               onClick={handleStartCrawl}
-              disabled={isStarting}
+              disabled={isStarting || isLoadingEnvironment}
             >
               {isStarting ? (
                 <>
                   <LoadingSpinner size="small" />
-                  시작 중...
+                  {environment?.crawlDisabled ? '큐에 추가 중...' : '시작 중...'}
                 </>
               ) : (
                 <>
                   <Play size={20} />
-                  크롤링 시작
+                  {environment?.crawlDisabled ? '큐에 크롤 요청 추가' : '크롤링 시작'}
+                  </>
+                )}
+              </button>
+            </>
+          ) : (
+            <button
+              className="btn-danger"
+              onClick={handleStopCrawl}
+              disabled={isStopping}
+            >
+              {isStopping ? (
+                <>
+                  <LoadingSpinner size="small" />
+                  중지 중...
+                </>
+              ) : (
+                <>
+                  <Square size={20} />
+                  크롤링 중지
                 </>
               )}
             </button>
-          </>
-        ) : (
-          <button
-            className="btn-danger"
-            onClick={handleStopCrawl}
-            disabled={isStopping}
-          >
-            {isStopping ? (
-              <>
-                <LoadingSpinner size="small" />
-                중지 중...
-              </>
-            ) : (
-              <>
-                <Square size={20} />
-                크롤링 중지
-              </>
-            )}
-          </button>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {/* Progress Bar (when running) */}
       {isRunning && crawlStatus?.progress && (

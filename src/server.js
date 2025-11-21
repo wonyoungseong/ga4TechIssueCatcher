@@ -26,6 +26,8 @@ import { setBroadcast } from './modules/orchestrator.js';
 import { getCleanupScheduler } from './utils/cleanupScheduler.js';
 import { getRetryScheduler } from './utils/retryScheduler.js';
 import { recoverIncompleteCrawls } from './utils/startupRecovery.js';
+import { getEnvironmentInfo, isCrawlDisabled } from './utils/environment.js';
+import { startQueueConsumer, stopQueueConsumer } from './modules/crawlQueueConsumer.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -100,8 +102,8 @@ setBroadcastForCrawl(broadcast);
 
 // Rate limiting middleware (SEC-001: DoS protection)
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per window
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 100, // Limit each IP to 100 requests per minute
   message: { success: false, error: 'Too many requests, please try again later' },
   standardHeaders: true,
   legacyHeaders: false,
@@ -116,9 +118,14 @@ const apiLimiter = rateLimit({
 });
 
 // Middleware
+app.set('trust proxy', 1); // Trust first proxy (required for Render.com)
 app.use(cors());
 app.use(express.json());
 app.use('/api/', apiLimiter); // Apply rate limiting to all API routes (skips localhost in development)
+
+// Serve static files from React build
+const frontendBuildPath = path.join(__dirname, '../front/crawler-monitor/build');
+app.use(express.static(frontendBuildPath));
 
 // API Routes
 app.use('/api/properties', propertiesRouter);
@@ -126,6 +133,14 @@ app.use('/api/crawl', crawlRouter);
 app.use('/api/cleanup', cleanupRouter);
 app.use('/api/crawler-settings', crawlerSettingsRouter);
 app.use('/api/retry-queue', retryRouter);
+
+// Environment information endpoint
+app.get('/api/environment', (req, res) => {
+  res.json({
+    success: true,
+    data: getEnvironmentInfo()
+  });
+});
 
 // Helper functions
 async function getAvailableDates(baseDir) {
@@ -493,6 +508,12 @@ app.get('/api/screenshots/:date/:filename', async (req, res) => {
   }
 });
 
+// SPA fallback route - serve index.html for all non-API routes
+// This must be placed AFTER all API routes but BEFORE error handler
+app.get('*', (req, res) => {
+  res.sendFile(path.join(frontendBuildPath, 'index.html'));
+});
+
 // Error handling middleware (REL-001: Structured error responses)
 app.use((err, req, res, next) => {
   // Log full error context for debugging
@@ -548,12 +569,28 @@ server.listen(PORT, async () => {
     console.warn('⚠️  Failed to start cleanup scheduler:', error.message);
   }
 
-  // Start retry queue scheduler
+  // Start retry queue scheduler (only if crawl is enabled)
   try {
     const retryScheduler = getRetryScheduler();
-    retryScheduler.start();
+    if (!isCrawlDisabled()) {
+      retryScheduler.start();
+      console.log('⏰ Retry queue scheduler started');
+    } else {
+      console.log('ℹ️  Retry queue scheduler disabled (read-only environment)');
+    }
   } catch (error) {
     console.warn('⚠️  Failed to start retry scheduler:', error.message);
+  }
+
+  // Start crawl request queue consumer (only if crawl is enabled)
+  try {
+    if (!isCrawlDisabled()) {
+      await startQueueConsumer();
+    } else {
+      console.log('⏸️  Crawl queue consumer disabled (queue-only mode, no execution)');
+    }
+  } catch (error) {
+    console.warn('⚠️  Failed to start queue consumer:', error.message);
   }
 
   console.log('');
@@ -562,6 +599,14 @@ server.listen(PORT, async () => {
 // Handle shutdown gracefully
 process.on('SIGTERM', () => {
   console.log('\n🛑 Shutting down server...');
+
+  // Stop queue consumer if running
+  try {
+    stopQueueConsumer();
+  } catch (error) {
+    console.warn('⚠️  Error stopping queue consumer:', error.message);
+  }
+
   server.close(() => {
     console.log('✅ Server closed');
     process.exit(0);

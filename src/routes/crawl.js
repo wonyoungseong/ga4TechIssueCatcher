@@ -7,6 +7,7 @@
 import express from 'express';
 import { supabase, Tables, CrawlRunStatus } from '../utils/supabase.js';
 import { runValidation, stopCrawl } from '../modules/orchestrator.js';
+import { isCrawlDisabled, getCrawlExecutionMode } from '../utils/environment.js';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
@@ -113,7 +114,8 @@ router.get('/status', async (req, res) => {
         success: true,
         data: {
           isRunning: false,
-          latestRun: latestRun || null
+          latestRun: latestRun || null,
+          crawlEnabled: !isCrawlDisabled()
         }
       });
     }
@@ -134,7 +136,8 @@ router.get('/status', async (req, res) => {
       data: {
         isRunning: true,
         currentRun,
-        progress: currentCrawlState.progress
+        progress: currentCrawlState.progress,
+        crawlEnabled: !isCrawlDisabled()
       }
     });
   } catch (error) {
@@ -147,10 +150,56 @@ router.get('/status', async (req, res) => {
 
 /**
  * POST /api/crawl/start
- * Start a new crawl execution
+ * Start a new crawl execution (immediate or queued based on environment)
+ *
+ * Queue Mode (Render): Adds request to crawl_request_queue for local worker to process
+ * Immediate Mode (Local): Executes crawl immediately (backward compatible)
  */
 router.post('/start', async (req, res) => {
   try {
+    // Get configuration from request body or use defaults
+    const {
+      browserPoolSize = parseInt(process.env.BROWSER_POOL_SIZE) || 7,
+      propertyIds = null // If null, crawl all active properties
+    } = req.body;
+
+    const executionMode = getCrawlExecutionMode();
+
+    // === QUEUE MODE (Render Environment) ===
+    if (executionMode === 'queue') {
+      // Add request to queue instead of executing immediately
+      const { data: queueItem, error: queueError } = await supabase
+        .from('crawl_request_queue')
+        .insert({
+          requested_by: 'render',
+          request_source: req.ip || 'unknown',
+          browser_pool_size: browserPoolSize,
+          property_ids: propertyIds,
+          status: 'pending',
+          priority: 0
+        })
+        .select()
+        .single();
+
+      if (queueError) {
+        throw new Error(`Failed to create queue request: ${queueError.message}`);
+      }
+
+      console.log(`[Queue Mode] Crawl request added to queue: ${queueItem.id}`);
+
+      return res.json({
+        success: true,
+        mode: 'queued',
+        message: 'Crawl request queued for local execution',
+        data: {
+          queueId: queueItem.id,
+          status: 'pending',
+          createdAt: queueItem.created_at
+        }
+      });
+    }
+
+    // === IMMEDIATE MODE (Local Environment) ===
     // Check if crawl is already running
     if (currentCrawlState.isRunning) {
       return res.status(409).json({
@@ -159,12 +208,6 @@ router.post('/start', async (req, res) => {
         currentRunId: currentCrawlState.runId
       });
     }
-
-    // Get configuration from request body or use defaults
-    const {
-      browserPoolSize = parseInt(process.env.BROWSER_POOL_SIZE) || 7,
-      propertyIds = null // If null, crawl all active properties
-    } = req.body;
 
     // Create new crawl run record
     // Use KST (Asia/Seoul) timezone for run_date and timestamps
@@ -1234,6 +1277,61 @@ router.delete('/saved-results/:id', async (req, res) => {
     res.json({
       success: true,
       message: 'Saved result removed successfully'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+/**
+ * GET /api/crawl/queue/status
+ * Get crawl request queue statistics
+ */
+router.get('/queue/status', async (req, res) => {
+  try {
+    const { data: items, error } = await supabase
+      .from('crawl_request_queue')
+      .select('status, created_at, crawl_run_id');
+
+    if (error) {
+      throw error;
+    }
+
+    const stats = {
+      pending: 0,
+      processing: 0,
+      completed: 0,
+      failed: 0,
+      cancelled: 0,
+      total: items.length
+    };
+
+    items.forEach(item => {
+      if (stats.hasOwnProperty(item.status)) {
+        stats[item.status]++;
+      }
+    });
+
+    // Add oldest pending request info
+    const pendingItems = items.filter(item => item.status === 'pending');
+    if (pendingItems.length > 0) {
+      const oldestPending = pendingItems.reduce((oldest, item) => {
+        const itemDate = new Date(item.created_at);
+        const oldestDate = new Date(oldest.created_at);
+        return itemDate < oldestDate ? item : oldest;
+      });
+
+      const ageMs = Date.now() - new Date(oldestPending.created_at).getTime();
+      stats.oldestPendingAgeMs = ageMs;
+      stats.oldestPendingAgeMinutes = Math.floor(ageMs / 60000);
+    }
+
+    res.json({
+      success: true,
+      data: stats
     });
   } catch (error) {
     res.status(500).json({

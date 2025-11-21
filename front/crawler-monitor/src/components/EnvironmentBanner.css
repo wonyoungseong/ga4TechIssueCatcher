@@ -1,0 +1,29 @@
+.environment-banner {
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.environment-banner.info {
+  background-color: #e3f2fd;
+  border: 1px solid #2196f3;
+  color: #1565c0;
+}
+
+.environment-banner.warning {
+  background-color: #fff3e0;
+  border: 1px solid #ff9800;
+  color: #e65100;
+}
+
+.banner-icon {
+  font-size: 24px;
+}
+
+.banner-message {
+  font-size: 14px;
+  font-weight: 500;
+}
