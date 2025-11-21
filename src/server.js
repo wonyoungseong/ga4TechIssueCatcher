@@ -27,6 +27,7 @@ import { getCleanupScheduler } from './utils/cleanupScheduler.js';
 import { getRetryScheduler } from './utils/retryScheduler.js';
 import { recoverIncompleteCrawls } from './utils/startupRecovery.js';
 import { getEnvironmentInfo, isCrawlDisabled } from './utils/environment.js';
+import { startQueueConsumer, stopQueueConsumer } from './modules/crawlQueueConsumer.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -581,12 +582,31 @@ server.listen(PORT, async () => {
     console.warn('⚠️  Failed to start retry scheduler:', error.message);
   }
 
+  // Start crawl request queue consumer (only if crawl is enabled)
+  try {
+    if (!isCrawlDisabled()) {
+      await startQueueConsumer();
+    } else {
+      console.log('⏸️  Crawl queue consumer disabled (queue-only mode, no execution)');
+    }
+  } catch (error) {
+    console.warn('⚠️  Failed to start queue consumer:', error.message);
+  }
+
   console.log('');
 });
 
 // Handle shutdown gracefully
 process.on('SIGTERM', () => {
   console.log('\n🛑 Shutting down server...');
+
+  // Stop queue consumer if running
+  try {
+    stopQueueConsumer();
+  } catch (error) {
+    console.warn('⚠️  Error stopping queue consumer:', error.message);
+  }
+
   server.close(() => {
     console.log('✅ Server closed');
     process.exit(0);
