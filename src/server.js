@@ -26,6 +26,7 @@ import { setBroadcast } from './modules/orchestrator.js';
 import { getCleanupScheduler } from './utils/cleanupScheduler.js';
 import { getRetryScheduler } from './utils/retryScheduler.js';
 import { recoverIncompleteCrawls } from './utils/startupRecovery.js';
+import { getEnvironmentInfo, isCrawlDisabled } from './utils/environment.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -131,6 +132,14 @@ app.use('/api/crawl', crawlRouter);
 app.use('/api/cleanup', cleanupRouter);
 app.use('/api/crawler-settings', crawlerSettingsRouter);
 app.use('/api/retry-queue', retryRouter);
+
+// Environment information endpoint
+app.get('/api/environment', (req, res) => {
+  res.json({
+    success: true,
+    data: getEnvironmentInfo()
+  });
+});
 
 // Helper functions
 async function getAvailableDates(baseDir) {
@@ -559,10 +568,15 @@ server.listen(PORT, async () => {
     console.warn('⚠️  Failed to start cleanup scheduler:', error.message);
   }
 
-  // Start retry queue scheduler
+  // Start retry queue scheduler (only if crawl is enabled)
   try {
     const retryScheduler = getRetryScheduler();
-    retryScheduler.start();
+    if (!isCrawlDisabled()) {
+      retryScheduler.start();
+      console.log('⏰ Retry queue scheduler started');
+    } else {
+      console.log('ℹ️  Retry queue scheduler disabled (read-only environment)');
+    }
   } catch (error) {
     console.warn('⚠️  Failed to start retry scheduler:', error.message);
   }

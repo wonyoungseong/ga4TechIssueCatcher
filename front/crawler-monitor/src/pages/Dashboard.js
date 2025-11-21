@@ -18,6 +18,7 @@ import { formatDate, formatDuration } from '../utils/formatters';
 import { getStatusLabel, getStatusColor } from '../utils/statusUtils';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import BrowserPoolStatus from '../components/BrowserPoolStatus';
+import EnvironmentBanner from '../components/EnvironmentBanner';
 import { API_BASE_URL } from '../utils/constants';
 import './Dashboard.css';
 
@@ -34,6 +35,8 @@ const Dashboard = () => {
   const [browserPoolSize, setBrowserPoolSize] = useState(7);
   const [tempBrowserPoolSize, setTempBrowserPoolSize] = useState('7'); // 입력 중인 값 (문자열)
   const [localCrawlStatus, setLocalCrawlStatus] = useState(null);
+  const [environment, setEnvironment] = useState(null);
+  const [isLoadingEnvironment, setIsLoadingEnvironment] = useState(true);
 
   // WebSocket real-time updates
   const { crawlStatus: wsCrawlStatus, connected } = useCrawlStatus(true);
@@ -48,6 +51,26 @@ const Dashboard = () => {
         setTempBrowserPoolSize(saved);
       }
     }
+  }, []);
+
+  // Fetch environment information on mount
+  useEffect(() => {
+    const fetchEnvironment = async () => {
+      try {
+        setIsLoadingEnvironment(true);
+        const response = await apiHelpers.getEnvironment();
+        if (response.success) {
+          setEnvironment(response.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch environment:', error);
+        // Fail-safe: assume crawl is enabled if fetch fails (local environment)
+        setEnvironment({ crawlDisabled: false });
+      } finally {
+        setIsLoadingEnvironment(false);
+      }
+    };
+    fetchEnvironment();
   }, []);
 
   // Fetch statistics on mount
@@ -239,69 +262,76 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Crawl Control Section */}
-      <div className="dashboard-actions">
-        {!isRunning ? (
-          <>
-            <div className="control-group">
-              <label htmlFor="browserPoolSize">브라우저 풀 크기 (최대 7):</label>
-              <input
-                id="browserPoolSize"
-                type="text"
-                value={tempBrowserPoolSize}
-                onChange={handlePoolSizeChange}
-                disabled={isStarting}
-                className="pool-size-input"
-                placeholder="1-7"
-              />
+      {/* Crawl Control Section or Environment Banner */}
+      {environment?.crawlDisabled ? (
+        <EnvironmentBanner
+          message="읽기 전용 대시보드 - 크롤링은 로컬 환경에서만 실행 가능합니다"
+          type="info"
+        />
+      ) : (
+        <div className="dashboard-actions">
+          {!isRunning ? (
+            <>
+              <div className="control-group">
+                <label htmlFor="browserPoolSize">브라우저 풀 크기 (최대 7):</label>
+                <input
+                  id="browserPoolSize"
+                  type="text"
+                  value={tempBrowserPoolSize}
+                  onChange={handlePoolSizeChange}
+                  disabled={isStarting || isLoadingEnvironment}
+                  className="pool-size-input"
+                  placeholder="1-7"
+                />
+                <button
+                  className="btn-secondary btn-save"
+                  onClick={handleSavePoolSize}
+                  disabled={isStarting || isLoadingEnvironment || tempBrowserPoolSize === browserPoolSize.toString()}
+                  title="브라우저 풀 크기 저장"
+                >
+                  <Save size={18} />
+                  저장
+                </button>
+              </div>
               <button
-                className="btn-secondary btn-save"
-                onClick={handleSavePoolSize}
-                disabled={isStarting || tempBrowserPoolSize === browserPoolSize.toString()}
-                title="브라우저 풀 크기 저장"
+                className="btn-primary"
+                onClick={handleStartCrawl}
+                disabled={isStarting || isLoadingEnvironment}
               >
-                <Save size={18} />
-                저장
+                {isStarting ? (
+                  <>
+                    <LoadingSpinner size="small" />
+                    시작 중...
+                  </>
+                ) : (
+                  <>
+                    <Play size={20} />
+                    크롤링 시작
+                  </>
+                )}
               </button>
-            </div>
+            </>
+          ) : (
             <button
-              className="btn-primary"
-              onClick={handleStartCrawl}
-              disabled={isStarting}
+              className="btn-danger"
+              onClick={handleStopCrawl}
+              disabled={isStopping}
             >
-              {isStarting ? (
+              {isStopping ? (
                 <>
                   <LoadingSpinner size="small" />
-                  시작 중...
+                  중지 중...
                 </>
               ) : (
                 <>
-                  <Play size={20} />
-                  크롤링 시작
+                  <Square size={20} />
+                  크롤링 중지
                 </>
               )}
             </button>
-          </>
-        ) : (
-          <button
-            className="btn-danger"
-            onClick={handleStopCrawl}
-            disabled={isStopping}
-          >
-            {isStopping ? (
-              <>
-                <LoadingSpinner size="small" />
-                중지 중...
-              </>
-            ) : (
-              <>
-                <Square size={20} />
-                크롤링 중지
-              </>
-            )}
-          </button>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {/* Progress Bar (when running) */}
       {isRunning && crawlStatus?.progress && (

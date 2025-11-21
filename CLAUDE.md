@@ -47,6 +47,170 @@ CSV/Supabase Properties → Orchestrator → Browser Pool → Validation → Tem
                           WebSocket Updates                        Local Backup (optional)
 ```
 
+## Environment Configuration
+
+### Overview
+
+This application supports two deployment modes with different feature sets based on resource constraints:
+
+- **Local Environment**: Full-featured development with browser automation and crawling capabilities
+- **Render Environment**: Read-only dashboard for monitoring (crawling disabled due to 512MB memory limit)
+
+The application automatically detects its environment using the `RENDER` environment variable and disables resource-intensive features when deployed on memory-constrained platforms.
+
+### Local Environment (Development + Crawling)
+
+**Features:**
+- ✅ Full crawling execution with Playwright browser automation
+- ✅ All schedulers active (cleanup + retry queue)
+- ✅ WebSocket real-time progress updates
+- ✅ Complete dashboard functionality with crawl controls
+- ✅ Browser pool configuration (1-7 concurrent browsers)
+
+**Setup:**
+```bash
+# No special environment variables needed
+npm run server  # Terminal 1 - Start web server
+npm start       # Terminal 2 - Run validation
+```
+
+**Memory Requirements:** ~500MB-2GB (depends on `BROWSER_POOL_SIZE` configuration)
+
+**When to Use:**
+- Local development and testing
+- Running validation crawls
+- Debugging validation issues
+- Full system functionality
+
+### Render Environment (Production - Read-only Dashboard)
+
+**Features:**
+- ✅ Dashboard for viewing historical validation results
+- ✅ WebSocket real-time updates (from external crawl sources)
+- ✅ Cleanup scheduler (automated data lifecycle management)
+- ✅ REST API for result queries
+- ❌ Crawling disabled (prevents memory exhaustion)
+- ❌ Retry queue scheduler disabled (can't trigger crawls)
+- ❌ Browser automation not available
+
+**Automatic Configuration:**
+- Render.com automatically sets `RENDER=true` environment variable
+- Application detects environment and disables crawl-related features
+- No manual configuration required for environment detection
+
+**Memory Requirements:** <100MB (no browser processes, minimal overhead)
+
+**When to Use:**
+- Production dashboard deployment
+- Viewing results from local crawl executions
+- Sharing validation results with team members
+- Monitoring validation history
+
+### Environment Variables
+
+| Variable | Local Default | Render Value | Purpose |
+|----------|---------------|--------------|---------|
+| `RENDER` | `undefined` | `true` (auto) | Detect Render.com deployment environment |
+| `DISABLE_CRAWL_START` | `undefined` | optional | Manual override to disable crawling |
+| `NODE_ENV` | `development` | `production` | Node.js environment mode |
+| `SUPABASE_URL` | local/cloud | cloud URL | Database connection endpoint |
+| `SUPABASE_ANON_KEY` | local/cloud key | cloud key | Database authentication key |
+| `SERVER_PORT` | `3000` | (assigned) | HTTP server port |
+| `BROWSER_POOL_SIZE` | `7` | N/A | Browser concurrency (local only) |
+| `GA4_TIMEOUT_MS` | `20000` | N/A | Phase 1 timeout (local only) |
+| `GA4_SLOW_TIMEOUT_MS` | `60000` | N/A | Phase 2 timeout (local only) |
+| `RETRY_QUEUE_ENABLED` | `true` | auto-disabled | Retry scheduler activation |
+
+### Architecture Differences
+
+**Local Development:**
+```
+Browser Pool (Playwright)
+         ↓
+    Validation Engine
+         ↓
+   Supabase (local or cloud)
+         ↓
+   Dashboard (http://localhost:3000)
+```
+
+**Render Deployment:**
+```
+External Local Crawl → Supabase Cloud ← Cloudflare Tunnel ← Local Supabase
+                              ↓
+                     Dashboard (read-only)
+                     https://ga4-tech-catcher.onrender.com
+```
+
+### Feature Availability Matrix
+
+| Feature | Local Environment | Render Environment |
+|---------|------------------|-------------------|
+| Start Crawl | ✅ | ❌ (403 error) |
+| View Results | ✅ | ✅ |
+| Real-time Updates | ✅ | ✅ |
+| Browser Pool | ✅ (configurable) | ❌ |
+| Retry Scheduler | ✅ | ❌ (auto-disabled) |
+| Cleanup Scheduler | ✅ | ✅ |
+| API Access | ✅ | ✅ (read-only) |
+
+### Troubleshooting
+
+**Issue: Crawl button missing on local environment**
+- **Check**: `RENDER` environment variable should NOT be set
+- **Check**: `DISABLE_CRAWL_START` should not be `true`
+- **Verify**: `curl http://localhost:3000/api/environment` should return `crawlDisabled: false`
+- **Solution**: Unset environment variables and restart server
+
+**Issue: 502 Bad Gateway errors on Render**
+- **Cause**: Render may be restarting due to memory limit exceeded
+- **Check**: Render dashboard logs for memory warnings
+- **Verify**: `RENDER=true` is set (should be automatic)
+- **Solution**: Ensure no one is triggering crawls remotely (API protection should prevent this)
+
+**Issue: Retry scheduler running on Render (should not run)**
+- **Check**: Server startup logs should show "ℹ️  Retry queue scheduler disabled (read-only environment)"
+- **Verify**: `src/utils/environment.js` - `isCrawlDisabled()` returns true on Render
+- **Solution**: Check environment variable configuration and server logs
+
+**Issue: "Crawl execution is disabled" error message**
+- **Expected**: This is normal behavior on Render environment
+- **Solution**: Run crawls from local environment, view results on Render dashboard
+
+**Issue: Dashboard shows crawl controls on Render**
+- **Check**: Frontend should fetch `/api/environment` and hide controls when `crawlDisabled: true`
+- **Verify**: Browser console for environment fetch errors
+- **Solution**: Hard refresh browser (Ctrl+Shift+R) to clear cached frontend
+
+### Environment Detection Implementation
+
+The environment detection system is implemented in three layers:
+
+1. **Backend Protection** (`src/routes/crawl.js`):
+   - POST `/api/crawl/start` returns 403 when crawl is disabled
+   - Error response includes reason code: `CRAWL_DISABLED`
+
+2. **Frontend Adaptation** (`front/crawler-monitor/src/pages/Dashboard.js`):
+   - Fetches environment info on mount: `GET /api/environment`
+   - Conditionally renders banner (crawl disabled) or controls (crawl enabled)
+   - Fail-safe default: assumes crawl enabled if fetch fails
+
+3. **Scheduler Control** (`src/server.js`):
+   - Retry scheduler checks `isCrawlDisabled()` before starting
+   - Cleanup scheduler always runs (data management, not resource-intensive)
+
+**Detection Logic:**
+```javascript
+// src/utils/environment.js
+export function isCrawlDisabled() {
+  return process.env.RENDER === 'true' ||
+         process.env.DISABLE_CRAWL_START === 'true';
+}
+```
+
+**See Also:**
+- [DEPLOYMENT.md](./DEPLOYMENT.md) - Comprehensive deployment guide for Render, Cloudflare Tunnel, and local environments
+
 ## Common Commands
 
 ### Development
@@ -195,6 +359,149 @@ node query-by-run-id.js
 node check-report-mismatch.js
 node diagnose-phase2-issue.js
 ```
+
+## Development Workflow
+
+### BMAD Method (Build-Measure-Analyze-Decide)
+
+This project follows the BMAD development methodology for continuous improvement:
+
+1. **Build**: Implement features incrementally using Git worktrees
+2. **Measure**: Collect metrics and validation results through automated testing
+3. **Analyze**: Review test results, performance data, and validation outcomes
+4. **Decide**: Make informed decisions based on evidence and data
+
+### Git Worktree Workflow
+
+**Issue Resolution with Worktrees:**
+```bash
+# Create worktree and auto-resolve issue
+./create-worktree.sh issue-72
+
+# Manual worktree creation
+git worktree add ./worktrees/issue-72 -b issue-72
+cd ./worktrees/issue-72
+```
+
+**Parallel Development:**
+- Each issue gets isolated worktree for independent development
+- Main branch remains stable while multiple features are developed simultaneously
+- Clean separation between production and experimental code
+
+### Claude Code Permissions
+
+**Pass Permissions Mode**: This project uses pass permissions to streamline development workflow. Claude Code can execute the following operations without explicit approval:
+
+```bash
+# Approved operations (no user confirmation required)
+- File operations: Read, Write, Edit, MultiEdit
+- Testing: npm test, npm run test:*
+- Development commands: npm start, npm run server, npm run dev
+- Database operations: npm run db:test, npm run db:migrate
+- Git operations: git status, git diff, git log (read-only)
+- Lint operations: npm run lint
+
+# Operations requiring confirmation
+- Git commits and pushes
+- Production deployments
+- Database schema changes in production
+- Deletion of files or data
+```
+
+**Custom Commands Integration:**
+- `/decompose-issue`: Break down complex tasks into manageable issues
+- `/resolve-issue <number>`: Automatically resolve GitHub issues with comprehensive workflow
+- Both commands work seamlessly with worktree-based development
+
+**Workflow Example:**
+```bash
+# 1. Decompose complex feature
+claude "/decompose-issue Implement advanced GA4 validation"
+
+# 2. Auto-create GitHub issues (if approved)
+
+# 3. Resolve issue in isolated worktree
+./create-worktree.sh issue-72  # Auto-triggers /resolve-issue 72
+```
+
+### BMAD Agent-Based Development
+
+**BMAD = Build-Measure-Analyze-Decide**: Evidence-based development with specialized AI agents.
+
+**Agent Roles:**
+- **Dev (James) 💻**: Implementation specialist - writes code, tests, and fixes issues
+- **QA (Quinn) 🧪**: Test architect - comprehensive quality review and gate decisions
+
+**Complete Development Cycle:**
+
+```bash
+# 1. Create Epic & Story
+claude "brownfield-create-epic Implement consent mode tracking"
+claude "create-next-story"  # Generates 1.1.story.md with full context
+
+# 2. Development Phase (Dev Agent)
+claude "/dev *develop-story"
+# → Implements tasks sequentially
+# → Writes comprehensive tests
+# → Status: Ready for Review
+
+# 3. Quality Review (QA Agent)
+claude "/qa *review 1.1"
+# → Comprehensive quality assessment
+# → Active code refactoring where safe
+# → Generates quality gate decision (PASS/CONCERNS/FAIL/WAIVED)
+# → Output: docs/project/qa/gates/1.1-{slug}.yml
+
+# 4. Fix Application (Dev Agent)
+claude "/dev *review-qa"
+# → Reads QA gate and assessments
+# → Applies fixes in priority order
+# → Status: Ready for Done or Ready for Review
+
+# 5. Final Verification (if needed)
+claude "/qa *review 1.1"
+# → Updated gate file
+# → Story Status: Done
+```
+
+**Key BMAD Principles:**
+- **Build**: Incremental implementation with Git worktrees
+- **Measure**: Automated testing and validation metrics
+- **Analyze**: Quality assessments with evidence-based gates
+- **Decide**: Data-driven decisions for next steps
+
+**Story File Permissions:**
+- **Dev Agent**: Can ONLY update Tasks/Subtasks, Dev Agent Record, File List, Change Log, Status
+- **QA Agent**: Can ONLY update QA Results section
+- **No agent modifies**: Story content, Acceptance Criteria, or other sections
+
+**Quality Gate Criteria:**
+- **PASS**: All critical requirements met, no blocking issues
+- **CONCERNS**: Non-critical issues found, team should review
+- **FAIL**: Critical issues requiring immediate fixes
+- **WAIVED**: Issues acknowledged but explicitly waived with reason
+
+**BMAD Project Structure:**
+```
+.claude/commands/BMad/
+├── README.md              # Complete BMAD workflow guide
+├── agents/               # Agent role definitions
+│   ├── dev.md           # Dev agent configuration
+│   └── qa.md            # QA agent configuration
+└── tasks/               # Executable workflows
+    ├── create-next-story.md
+    ├── review-story.md
+    └── apply-qa-fixes.md
+
+docs/project/
+├── stories/             # Development stories
+│   └── {epic}.{story}.story.md
+└── qa/                 # QA artifacts
+    ├── gates/          # Quality gate decisions
+    └── assessments/    # Risk, NFR, test design
+```
+
+**See:** [BMAD Workflow Guide](.claude/commands/BMad/README.md) for comprehensive documentation.
 
 ## Configuration
 

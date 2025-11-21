@@ -146,6 +146,11 @@ export const apiHelpers = {
   getStatus: () => api.get('/api/status'),
 
   /**
+   * Get environment information
+   */
+  getEnvironment: () => api.get('/api/environment'),
+
+  /**
    * Get properties summary stats
    */
   getPropertiesStats: () => api.get('/api/properties/summary/stats'),

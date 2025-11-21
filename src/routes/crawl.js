@@ -7,6 +7,7 @@
 import express from 'express';
 import { supabase, Tables, CrawlRunStatus } from '../utils/supabase.js';
 import { runValidation, stopCrawl } from '../modules/orchestrator.js';
+import { isCrawlDisabled } from '../utils/environment.js';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
@@ -113,7 +114,8 @@ router.get('/status', async (req, res) => {
         success: true,
         data: {
           isRunning: false,
-          latestRun: latestRun || null
+          latestRun: latestRun || null,
+          crawlEnabled: !isCrawlDisabled()
         }
       });
     }
@@ -134,7 +136,8 @@ router.get('/status', async (req, res) => {
       data: {
         isRunning: true,
         currentRun,
-        progress: currentCrawlState.progress
+        progress: currentCrawlState.progress,
+        crawlEnabled: !isCrawlDisabled()
       }
     });
   } catch (error) {
@@ -151,8 +154,8 @@ router.get('/status', async (req, res) => {
  */
 router.post('/start', async (req, res) => {
   try {
-    // Check if crawl is disabled (for production/low-memory environments)
-    if (process.env.DISABLE_CRAWL_START === 'true') {
+    // Check if crawl is disabled in this environment
+    if (isCrawlDisabled()) {
       return res.status(403).json({
         success: false,
         error: 'Crawl execution is disabled in this environment. Please run crawls locally.',
