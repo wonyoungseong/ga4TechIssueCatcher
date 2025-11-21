@@ -159,9 +159,15 @@ const Dashboard = () => {
       const response = await apiHelpers.startCrawl({ browserPoolSize });
 
       if (response.success) {
-        showToast('크롤링이 시작되었습니다', 'success');
-        // Navigate to processing page to monitor progress
-        navigate('/processing');
+        // Check if response is queue mode or immediate execution
+        if (response.mode === 'queued') {
+          showToast('크롤 요청이 큐에 추가되었습니다. 로컬 환경에서 자동으로 처리됩니다.', 'success');
+          // Stay on dashboard to see queue status
+        } else {
+          showToast('크롤링이 시작되었습니다', 'success');
+          // Navigate to processing page to monitor progress
+          navigate('/processing');
+        }
       } else {
         showToast('크롤링 시작에 실패했습니다', 'error');
       }
@@ -262,51 +268,51 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Crawl Control Section or Environment Banner */}
-      {environment?.crawlDisabled ? (
-        <EnvironmentBanner
-          message="읽기 전용 대시보드 - 크롤링은 로컬 환경에서만 실행 가능합니다"
-          type="info"
-        />
-      ) : (
-        <div className="dashboard-actions">
-          {!isRunning ? (
-            <>
-              <div className="control-group">
-                <label htmlFor="browserPoolSize">브라우저 풀 크기 (최대 7):</label>
-                <input
-                  id="browserPoolSize"
-                  type="text"
-                  value={tempBrowserPoolSize}
-                  onChange={handlePoolSizeChange}
-                  disabled={isStarting || isLoadingEnvironment}
-                  className="pool-size-input"
-                  placeholder="1-7"
-                />
-                <button
-                  className="btn-secondary btn-save"
-                  onClick={handleSavePoolSize}
-                  disabled={isStarting || isLoadingEnvironment || tempBrowserPoolSize === browserPoolSize.toString()}
-                  title="브라우저 풀 크기 저장"
-                >
-                  <Save size={18} />
-                  저장
-                </button>
-              </div>
-              <button
-                className="btn-primary"
-                onClick={handleStartCrawl}
+      {/* Crawl Control Section */}
+      <div className="dashboard-actions">
+        {!isRunning ? (
+          <>
+            {environment?.crawlDisabled && (
+              <EnvironmentBanner
+                message="큐 모드 - 요청이 로컬 환경에서 자동으로 처리됩니다"
+                type="info"
+              />
+            )}
+            <div className="control-group">
+              <label htmlFor="browserPoolSize">브라우저 풀 크기 (최대 7):</label>
+              <input
+                id="browserPoolSize"
+                type="text"
+                value={tempBrowserPoolSize}
+                onChange={handlePoolSizeChange}
                 disabled={isStarting || isLoadingEnvironment}
+                className="pool-size-input"
+                placeholder="1-7"
+              />
+              <button
+                className="btn-secondary btn-save"
+                onClick={handleSavePoolSize}
+                disabled={isStarting || isLoadingEnvironment || tempBrowserPoolSize === browserPoolSize.toString()}
+                title="브라우저 풀 크기 저장"
               >
-                {isStarting ? (
-                  <>
-                    <LoadingSpinner size="small" />
-                    시작 중...
-                  </>
-                ) : (
-                  <>
-                    <Play size={20} />
-                    크롤링 시작
+                <Save size={18} />
+                저장
+              </button>
+            </div>
+            <button
+              className="btn-primary"
+              onClick={handleStartCrawl}
+              disabled={isStarting || isLoadingEnvironment}
+            >
+              {isStarting ? (
+                <>
+                  <LoadingSpinner size="small" />
+                  {environment?.crawlDisabled ? '큐에 추가 중...' : '시작 중...'}
+                </>
+              ) : (
+                <>
+                  <Play size={20} />
+                  {environment?.crawlDisabled ? '큐에 크롤 요청 추가' : '크롤링 시작'}
                   </>
                 )}
               </button>
